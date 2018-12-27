@@ -1,0 +1,172 @@
+﻿@model IEnumerable<MeMeMe.Models.StatiRegistro>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class=@ViewBag.dietaStyle>
+    @ViewBag.paziente
+    @if (ViewBag.idDrop == false)
+    {
+        @*if (User.IsInRole("audit"))
+        {
+            <span style="float:right;">@Html.ActionLink("DROP", "DropCreate", new { idPaziente = ViewBag.idPaziente }, new { @class = "btn btn-default linkdisabled", title = "action disabled for audit" })</span>
+        }
+        else
+        {*@
+            <span style="float:right;">@Html.ActionLink("DROP", "DropCreate", new { idPaziente = ViewBag.idPaziente }, new { @class = "btn btn-default" })</span>
+        //}
+    }
+    else
+    {
+        <span style="float:right; color:red">DROPPED</span>
+    }
+</h2>
+
+<h2 class="infoEventiAvversi">
+
+    @if (@ViewBag.numeroSAE + ViewBag.numeroAE == 0)
+    {
+        <span>Nessun evento avverso</span>
+    }
+    else
+    {
+        <span>SAE @ViewBag.numeroSAE - AE @ViewBag.numeroAE - @Html.ActionLink("vai agli eventi avversi", "../SchedeFuoriProcesso")</span>
+        
+    }
+</h2>
+
+<div>
+    <a href="javascript:window.print()">Stampa la scheda paziente</a>
+</div>
+
+<div class="row">
+
+    @{
+    <!-- COLUMN 1 FARMACI-->
+        <div class="col-md-6">
+            <h2>FARMACI</h2>
+            <table class="avanzamento">
+                <tr>
+                    <td rowspan="2" class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=1) ? "checked" : "unchecked")">randomizzazione</td>
+                    <td rowspan="2" class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=2) ? "checked" : "unchecked")">valutazione</td>
+                    <td colspan="7" class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=3) ? "checked" : "unchecked")" align="center">post randomizzazione anno</td>
+                </tr>
+                <tr>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=3) ? "checked" : "unchecked")">primo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=5) ? "checked" : "unchecked")">secondo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=7) ? "checked" : "unchecked")">terzo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=9) ? "checked" : "unchecked")">quarto</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElencoFarmaci) >=11) ? "checked" : "unchecked")">quinto</td>
+                </tr>
+            </table>
+
+            <!--POST RANDOMIZZAZIONE-->
+            @if (ViewBag.idStatoElencoFarmaci>0)
+            {
+                <h3>Attività corrente</h3>
+                <div class="note">
+                    @ViewBag.attivitaFarmaci
+                </div>
+                <h4>Da ultima assegnazione</h4>
+
+                <table class="calendario">
+                    <tr>
+                        <td>
+                            <span>anni:</span>
+                            <span>@ViewBag.AnniDaUltimaAssegnazione</span>
+                        </td>
+                        <td>
+                            <span>mesi:</span>
+                            <span>@ViewBag.MesiDaUltimaAssegnazione</span>
+                        </td>
+                        <td>
+                            <span>giorni:</span>
+                            <span>@ViewBag.giorniDaUltimaAssegnazione</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Prossima attività</h3>
+                if (!User.IsInRole("audit"))
+                {
+                    @Html.ActionLink((string)ViewBag.descriptionFarmaci, (string)ViewBag.viewFarmaci + "Create", new { idPaziente = ViewBag.idPaziente }, new { @class = "btn btn-default" })
+                }
+                else
+                {
+                    @Html.ActionLink((string)ViewBag.descriptionFarmaci, (string)ViewBag.viewFarmaci + "Create", new { idPaziente = ViewBag.idPaziente }, new { @class = "btn btn-default disabled" })
+                }
+                <h2>Assegnazioni</h2>
+                @Html.Action("_HistoryFarmaci", "Farmaci", new { id = ViewBag.idPaziente })
+                <p><span style="font-weight:bold;">* </span>Giorni da assegnazione precedente. Con riferimento alla prima fase (scheda di randomizzazione), i giorni trascorsi dalla randomizzazione dieta.</p>
+
+                <h2>Riepilogo farmaci</h2>
+                <div class="infoPanel">
+
+                    @Html.Action("_RiepilogoFarmaci", "Farmaci", new { idPaziente = ViewBag.idPaziente })
+                    </div>
+
+            }
+                </div>
+
+    <!-- COLUMN 2 STATI-->
+        <div class="col-md-6">
+
+            <h2>ATTIVITA NELLO STUDIO</h2>
+            <table class="avanzamento">
+                <tr>
+                    <td rowspan="2" class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 1) ? "checked" : "unchecked")">reclutamento</td>
+                    <td rowspan="2" class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 4) ? "checked" : "unchecked")">prelievo</td>
+                    <td rowspan="2" class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 7) ? "checked" : "unchecked")">valutazione</td>
+                    <td colspan="8" class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 8) ? "checked" : "unchecked")" align="center">post randomizzazione anno</td>
+                </tr>
+                <tr>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 9) ? "checked" : "unchecked")">primo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 12) ? "checked" : "unchecked")">secondo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 15) ? "checked" : "unchecked")">terzo</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 18) ? "checked" : "unchecked")">quarto</td>
+                    <td class="@((Convert.ToInt16(ViewBag.idStatoElenco) >= 21) ? "checked" : "unchecked")">quinto</td>
+                </tr>
+            </table>
+
+            <h3>Attività corrente</h3>
+            <div class="note">
+                @ViewBag.statoAttivita
+            </div>
+            <h3>Da ultima attività</h3>
+            <table class="calendario" cellpadding=10 cellspacing=10>
+                <tr>
+                    <td>
+                        <span>anni:</span>
+                        <span>@ViewBag.AnniDaUltimaScheda</span>
+                    </td>
+                    <td>
+                        <span>mesi:</span>
+                        <span>@ViewBag.MesiDaUltimaScheda</span>
+                    </td>
+                    <td>
+                        <span>giorni:</span>
+                        <span>@ViewBag.GiorniDaUltimaScheda</span>
+                    </td>
+                </tr>
+            </table>
+            <!--SE TERMINATO chiude attività-->
+            @if (ViewBag.idStatoElenco != 100)
+    {
+                <h3>Prossima attività</h3>
+                @Html.ActionLink((string)ViewBag.description, (string)ViewBag.view + "Create", new { idPaziente = ViewBag.idPaziente }, new { @class = "btn btn-default" })
+
+            }
+
+            <!--DAL 1 stato post ARRUOLAMENTO-->
+            @if (ViewBag.idStatoElenco > 1)
+    {
+                <h2>Storico registrazioni</h2>
+                @*@Html.Partial("_HistorySchede")*@
+                @Html.Action("_HistorySchede", "Studio", new { id = ViewBag.idPaziente })
+
+            }
+        </div>
+
+    }
+</div>

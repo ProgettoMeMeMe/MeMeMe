@@ -1,0 +1,406 @@
+﻿@model MeMeMe.Models.Anagrafica
+
+@{
+    ViewBag.Title = "Reclutamento";
+}  
+    
+<script type="text/javascript">
+    $(document).ready(function () {
+        //default
+        if ($("#datanascita").val() == '01/01/0001 00:00:00') {
+            $("#datanascita").val('');
+        }
+        var selectedProvincia = $('#provincia').val();
+        if (selectedProvincia != null && selectedProvincia != '') {
+            $.getJSON('@Url.Action("Comuni")', { provincia: selectedProvincia }, function (comuni) {
+                var comuneSelect = $('#comune');
+                comuneSelect.empty();
+                $.each(comuni, function (index, comune) {
+                    comuneSelect.append($('<option/>', {
+                        value: comune.value,
+                        text: comune.text
+                    }));
+                });
+            });
+        }
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+
+<script src="@Url.Content("~/Scripts/MeMeMeAnagrafica.js")" type="text/javascript"></script>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h2>Anagrafica</h2>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <!--
+            <div class="form-group">
+                @Html.LabelFor(model => model.userName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.userName)
+                    @Html.ValidationMessageFor(model => model.userName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.data, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.data)
+                    @Html.ValidationMessageFor(model => model.data)
+                </div>
+            </div>
+            -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.famiglia, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("famiglia", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.famiglia)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.parentela, "parentela", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Parentela", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.parentela)
+                </div>
+            </div>
+            @if (!User.IsInRole("audit"))
+            {
+                <div class="form-group required">
+                    @Html.LabelFor(model => model.nome, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.nome, new { @class = "form-control", @style = "width:250px", @maxlength = "25" })
+                        @Html.ValidationMessageFor(model => model.nome)
+                    </div>
+                </div>
+
+                <div class="form-group required">
+                    @Html.LabelFor(model => model.cognome, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.cognome, new { @class = "form-control", @style = "width:250px", @maxlength = "25" })
+                        @Html.ValidationMessageFor(model => model.cognome)
+                    </div>
+                </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.indirizzo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.indirizzo, new { @class = "form-control", @style = "width:300px", @maxlength = "30" })
+                    @Html.ValidationMessageFor(model => model.indirizzo)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(
+                     model => model.provincia,
+                     new SelectList(
+                     Model.ListaProvince, "Value", "Text"), "-- seleziona provincia --", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.comune, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(
+                         x => x.comune,
+                         Enumerable.Empty<SelectListItem>(),
+                         "", new { @class = "form-control" }
+                    )
+                    @Html.ValidationMessageFor(model => model.comune)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.localita, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.localita,null, new { @class = "form-control", @style = "width:300px", @maxlength = "30" })
+                    @Html.ValidationMessageFor(model => model.localita)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.cap, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.cap, null, new { @class = "form-control", @style = "width:70px", @maxlength = "5" })
+                    @Html.ValidationMessageFor(model => model.cap)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.datanascita, new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.datanascita, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.datanascita)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.comuneNascita, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.comuneNascita, null, new { @class = "form-control", @style = "width:500px", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.comuneNascita)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.cfiscale, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.cfiscale, null, new { @class = "form-control", @style = "width:180px;", @maxlength = "16" })
+                    @Html.ValidationMessageFor(model => model.cfiscale)
+                </div>
+            </div>
+            }
+        <div class="form-group">
+            @Html.LabelFor(model => model.statocivile, "statocivile", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("statocivile", null,  new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.statocivile)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.istruzione, "istruzione", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("istruzione", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.istruzione)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.professione, "professione", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("professione", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.professione)
+            </div>
+        </div>
+        @if (!User.IsInRole("audit"))
+        {
+        <div class="form-group">
+            @Html.LabelFor(model => model.telefonoFisso, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.telefonoFisso, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                @Html.ValidationMessageFor(model => model.telefonoFisso)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.telefonoLavoro, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.telefonoLavoro, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                @Html.ValidationMessageFor(model => model.telefonoLavoro)
+            </div>
+        </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.telefonoCellulare, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.telefonoCellulare, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.telefonoCellulare)
+                </div>
+            </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.email, null, new { @class = "form-control", @style = "width:500px;", @maxlength = "50" })
+                @Html.ValidationMessageFor(model => model.email)
+            </div>
+        </div>
+
+        <!--medico-->
+        <div class="sezioneForm">
+            <div class="col-md-offset-2 col-md-10">
+                <h3>medico di base</h3>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(model => model.medicoNome, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoNome, null, new { @class = "form-control", @style = "width:250px;", @maxlength = "25" })
+                    @Html.ValidationMessageFor(model => model.medicoNome)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.medicoCognome, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoCognome, null, new { @class = "form-control", @style = "width:250px;", @maxlength = "25" })
+                    @Html.ValidationMessageFor(model => model.medicoCognome)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.medicoIndirizzo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoIndirizzo, null, new { @class = "form-control", @style = "width:500px;", @maxlength = "30" })
+                    @Html.ValidationMessageFor(model => model.medicoIndirizzo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.medicoCitta, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoCitta, null, new { @class = "form-control", @style = "width:500px;", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.medicoCitta)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.medicoTelefonoStudio, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoTelefonoStudio, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.medicoTelefonoStudio)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.medicoTelefonoCellulare, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.medicoTelefonoCellulare, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.medicoTelefonoCellulare)
+                </div>
+            </div>
+
+        </div>
+        <!--referente-->
+        <div class="sezioneForm">
+            <div class="col-md-offset-2 col-md-10">
+                <h3>referente</h3>
+            </div>
+            <div class="form-group required">
+                @Html.LabelFor(model => model.riferimentoNome, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.riferimentoNome, null, new { @class = "form-control", @style = "width:250px;", @maxlength = "25" })
+                    @Html.ValidationMessageFor(model => model.riferimentoNome)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.riferimentoCognome, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.riferimentoCognome, null, new { @class = "form-control", @style = "width:250px;", @maxlength = "25" })
+                    @Html.ValidationMessageFor(model => model.riferimentoCognome)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.riferimentoTelefono, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.riferimentoTelefono, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.riferimentoTelefono)
+                </div>
+            </div>
+        </div>
+        }
+            <div class="form-group">
+                <div class="checkbox-inline  col-md-offset-2 col-md-10">
+                    @Html.CheckBoxFor(model => model.consensoPrivacy)
+                    @Html.LabelFor(model => model.consensoPrivacy)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-inline col-md-offset-2 col-md-2">
+                    @Html.CheckBoxFor(model => model.consensoInformato)
+                    @Html.LabelFor(model => model.consensoInformato)
+                </div>
+                @Html.LabelFor(model => model.dataConsensoInformato, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.dataConsensoInformato, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dataConsensoInformato)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-inline col-md-offset-2 col-md-10">
+                    @Html.CheckBoxFor(model => model.studioGeneticaPartecipazione)
+                    @Html.LabelFor(model => model.studioGeneticaPartecipazione)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-inline col-md-offset-2 col-md-10">
+                    @Html.CheckBoxFor(model => model.studioGeneticaUtilizzo)
+                    @Html.LabelFor(model => model.studioGeneticaUtilizzo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-inline col-md-offset-2 col-md-10">
+                    @Html.CheckBoxFor(model => model.altriStudiConservazione)
+                    @Html.LabelFor(model => model.altriStudiConservazione)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-inline col-md-offset-2 col-md-10">
+                    @Html.CheckBoxFor(model => model.studioGeneticaContatti)
+                    @Html.LabelFor(model => model.studioGeneticaContatti)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" />
+                    }
+                </div>
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Torna a elenco", "Index")
+</div>
+
+
+<script type="text/javascript">
+    $('#provincia').change(function () {
+        var selectedProvincia = $(this).val();
+        if (selectedProvincia != null && selectedProvincia != '') {
+            $.getJSON('@Url.Action("Comuni")', { provincia: selectedProvincia }, function (comuni) {
+                var comuneSelect = $('#comune');
+                comuneSelect.empty();
+                $.each(comuni, function (index, comune) {
+                    comuneSelect.append($('<option/>', {
+                        value: comune.value,
+                        text: comune.text
+                    }));
+                });
+            });
+        }
+    });
+
+    $('#comune').change(function () {
+        $('#comune').show();
+    });
+</script>

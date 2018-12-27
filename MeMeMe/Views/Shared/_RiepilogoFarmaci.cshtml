@@ -1,0 +1,69 @@
+﻿@model MeMeMe.Models.RiepilogoFarmaci
+@{ Layout = null; }
+<table class="table">
+    <tr>
+        <th></th>
+        <th style="text-align:center">
+            Flaconi
+        </th>
+        <th style="text-align:center">
+            Pillole*
+        </th>
+    </tr>
+    <tr>
+        <td colspan="3" style="font-weight:bold;">
+            Dosaggio pieno
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Assegnati
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.flaconiDPAssegnati)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.pilloleDPAssegnate) / @Html.DisplayFor(model => model.pilloleDPAssunte)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            In carico
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.flaconiDPInCarico)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.pilloleDPInCarico)
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" style="font-weight:bold;">
+            Mezzo dosaggio
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Assegnati
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.flaconiMDAssegnati) 
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.pilloleMDAssegnate) / @Html.DisplayFor(model => model.pilloleMDAssunte)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            In carico
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.flaconiMDInCarico)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.pilloleMDInCarico)
+        </td>
+    </tr>
+</table>
+<p>* assegnate/assunte o solo assegnate</p>

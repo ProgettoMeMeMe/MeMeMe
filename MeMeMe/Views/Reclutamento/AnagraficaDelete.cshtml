@@ -1,0 +1,67 @@
+﻿@model MeMeMe.Models.Anagrafica
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Sei sicuro di procedere alla cancellazione?</h3>
+<div>
+    <h4>Anagrafica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idPaziente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idPaziente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.data)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.data)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cognome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cognome)
+        </dd>
+
+            <dt>
+            @Html.DisplayNameFor(model => model.cfiscale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cfiscale)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Elimina" class="btn btn-default" />
+            <br />
+            <br />
+            @Html.ActionLink("Torna alla lista", "Index")
+        </div>
+    }
+</div>

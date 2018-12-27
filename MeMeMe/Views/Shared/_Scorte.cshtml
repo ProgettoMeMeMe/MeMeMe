@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MeMeMe.Models.Scorte>
+@{ Layout = null; }
+
+    <table class="table">
+        <tr>
+            <th align="left">
+                @Html.DisplayNameFor(model => model.lotto)
+            </th>
+            <th align="left">
+                @Html.DisplayNameFor(model => model.scadenzaFarmaco)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.totale)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.resi)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.assegnati)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.disponibili)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.lotto)
+                </td>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.scadenzaFarmaco)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.totale)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.resi)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.assegnati)
+                </td>
+                <td align="center">
+                    <strong>@Html.DisplayFor(modelItem => item.disponibili)</strong>
+                </td>
+
+            </tr>
+        }
+    </table>

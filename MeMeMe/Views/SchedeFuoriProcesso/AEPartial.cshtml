@@ -1,0 +1,50 @@
+﻿@{
+    if (Model.Count > 0)
+    {
+        if (!User.IsInRole("audit")) { 
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 15, canSort: false);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+            @grid.GetHtml(tableStyle: "partialtable",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns: grid.Columns(
+                        grid.Column("tipoEvento", "tipologia"),
+                        grid.Column("serietaEvento", "serietà"),
+                        grid.Column("reazioneFarmaco", "reazione"),
+                        grid.Column("serietaGrado", "grado"),
+                        grid.Column("dataInizio", "inzio"),
+                        grid.Column("dataFine", "fine"),
+                        grid.Column("outcome", "outcome"),
+                        grid.Column(header: "", format: (item) =>
+                        {
+                            return new HtmlString(
+                                   Html.ActionLink("modifica", "AEDettaglioEdit", new { idAEDettaglio = item.idAEDettaglio }).ToString() + " | " +
+                                   Html.ActionLink("elimina", "AEDettaglioDelete", new { idAEDettaglio = item.idAEDettaglio }).ToString()
+                            );
+                        })
+                ));
+        }
+        else
+        {
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 15, canSort: false);
+            grid.Pager(WebGridPagerModes.NextPrevious);
+            @grid.GetHtml(tableStyle: "partialtable",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns: grid.Columns(
+                        grid.Column("tipoEvento", "tipologia"),
+                        grid.Column("serietaEvento", "serietà"),
+                        grid.Column("reazioneFarmaco", "reazione"),
+                        grid.Column("serietaGrado", "grado"),
+                        grid.Column("dataInizio", "inzio"),
+                        grid.Column("dataFine", "fine"),
+                        grid.Column("outcome", "outcome")
+                ));
+        }
+    }
+}
+
+<p style="padding:20px;">
+    @Html.ActionLink("Aggiungi evento", "AEDettaglioCreate", new { idAE = @Html.Display("idAE") })
+</p>
+

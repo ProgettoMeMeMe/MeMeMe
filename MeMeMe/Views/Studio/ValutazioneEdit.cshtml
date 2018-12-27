@@ -1,0 +1,120 @@
+﻿@model MeMeMe.Models.ValutazioneMetformina
+@{
+    ViewBag.Title = "Valutazione";
+}
+
+<h2>Valutazione  @ViewBag.Paziente</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro)
+        @Html.HiddenFor(model => model.dataInserimento)
+        @Html.HiddenFor(model => model.userName)
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.dataConsegna, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataConsegna, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _data" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.dataConsegna)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pilloleAssunte, new { @class = "control-label col-md-4" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.pilloleAssunte, null, new { @class = "form-control", @style = "width:60px;", @maxlength = "2" })
+            </div>
+            @Html.ValidationMessageFor(model => model.pilloleAssunte)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.dataTerminazione, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataTerminazione, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _data" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.dataTerminazione)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.effettiCollaterali, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                <label>
+                    @Html.CheckBoxFor(model => model.effettiCollaterali)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.osservazioni, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.osservazioni, new { @class = "form-control", rows = "5", cols = "200" })
+            </div>
+            @Html.ValidationMessageFor(model => model.osservazioni)
+        </div>
+        @{
+            if (Model.StatiRegistro.StatiElenco.descrizione == "valutazione metformina")
+            {
+                if (Model.StatiRegistro.Anagrafica.dataRandomizzazioneTrattamento == null)
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="submit" value="Aggiorna" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="sezione" style="padding:20px; background-color:#6ce96c">
+                        <h3>Paziente randomizzato</h3>
+                        scheda non modificabile
+                    </div>
+                    <div>
+                        <a href="javascript:history.back()">Torna al paziente</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        @if (User.IsInRole("audit"))
+                        {
+                            <input type="submit" value="Aggiorna" class="btn btn-default" disabled />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Aggiorna" class="btn btn-default" />
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

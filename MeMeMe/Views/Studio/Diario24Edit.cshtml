@@ -1,0 +1,2053 @@
+﻿
+@model MeMeMe.Models.DiarioDieta24
+
+@{
+    ViewBag.Title = "Diario Dieta 24 ore";
+}
+
+<script type="text/javascript">
+
+    var viewModel = {
+        _ieri: ko.observable(@Model.ieri.ToString()),
+        _merendineNC: ko.observable(@Model.merendineNC.ToString().ToLower()),
+        _merendineCO: ko.observable(@Model.merendineCO.ToString().ToLower()),
+        _merendinePR: ko.observable(@Model.merendinePR.ToString().ToLower()),
+        _merendineCE: ko.observable(@Model.merendineCE.ToString().ToLower()),
+        _merendineFP: ko.observable(@Model.merendineFP.ToString().ToLower()),
+        _cioccolatoNC: ko.observable(@Model.cioccolatoNC.ToString().ToLower()),
+        _cioccolatoCO: ko.observable(@Model.cioccolatoCO.ToString().ToLower()),
+        _cioccolatoPR: ko.observable(@Model.cioccolatoPR.ToString().ToLower()),
+        _cioccolatoCE: ko.observable(@Model.cioccolatoCE.ToString().ToLower()),
+        _cioccolatoFP: ko.observable(@Model.cioccolatoFP.ToString().ToLower()),
+        _bibiteNC: ko.observable(@Model.bibiteNC.ToString().ToLower()),
+        _bibiteCO: ko.observable(@Model.bibiteCO.ToString().ToLower()),
+        _bibitePR: ko.observable(@Model.bibitePR.ToString().ToLower()),
+        _bibiteCE: ko.observable(@Model.bibiteCE.ToString().ToLower()),
+        _bibiteFP: ko.observable(@Model.bibiteFP.ToString().ToLower()),
+        _bevandeAlcolicheNC: ko.observable(@Model.bevandeAlcolicheNC.ToString().ToLower()),
+        _bevandeAlcolicheCO: ko.observable(@Model.bevandeAlcolicheCO.ToString().ToLower()),
+        _bevandeAlcolichePR: ko.observable(@Model.bevandeAlcolichePR.ToString().ToLower()),
+        _bevandeAlcolicheCE: ko.observable(@Model.bevandeAlcolicheCE.ToString().ToLower()),
+        _bevandeAlcolicheFP: ko.observable(@Model.bevandeAlcolicheFP.ToString().ToLower()),
+        _latteNC: ko.observable(@Model.latteNC.ToString().ToLower()),
+        _latteCO: ko.observable(@Model.latteCO.ToString().ToLower()),
+        _lattePR: ko.observable(@Model.lattePR.ToString().ToLower()),
+        _latteCE: ko.observable(@Model.latteCE.ToString().ToLower()),
+        _latteFP: ko.observable(@Model.latteFP.ToString().ToLower()),
+        _yogurtZuccheratoNC: ko.observable(@Model.yogurtZuccheratoNC.ToString().ToLower()),
+        _yogurtZuccheratoCO: ko.observable(@Model.yogurtZuccheratoCO.ToString().ToLower()),
+        _yogurtZuccheratoPR: ko.observable(@Model.yogurtZuccheratoPR.ToString().ToLower()),
+        _yogurtZuccheratoCE: ko.observable(@Model.yogurtZuccheratoCE.ToString().ToLower()),
+        _yogurtZuccheratoFP: ko.observable(@Model.yogurtZuccheratoFP.ToString().ToLower()),
+        _yogurtBiancoNC: ko.observable(@Model.yogurtBiancoNC.ToString().ToLower()),
+        _yogurtBiancoCO: ko.observable(@Model.yogurtBiancoCO.ToString().ToLower()),
+        _yogurtBiancoPR: ko.observable(@Model.yogurtBiancoPR.ToString().ToLower()),
+        _yogurtBiancoCE: ko.observable(@Model.yogurtBiancoCE.ToString().ToLower()),
+        _yogurtBiancoFP: ko.observable(@Model.yogurtBiancoFP.ToString().ToLower()),
+        _fruttaNC: ko.observable(@Model.fruttaNC.ToString().ToLower()),
+        _fruttaCO: ko.observable(@Model.fruttaCO.ToString().ToLower()),
+        _fruttaPR: ko.observable(@Model.fruttaPR.ToString().ToLower()),
+        _fruttaCE: ko.observable(@Model.fruttaCE.ToString().ToLower()),
+        _fruttaFP: ko.observable(@Model.fruttaFP.ToString().ToLower()),
+        _verdureCrudeNC: ko.observable(@Model.verdureCrudeNC.ToString().ToLower()),
+        _verdureCrudeCO: ko.observable(@Model.verdureCrudeCO.ToString().ToLower()),
+        _verdureCrudePR: ko.observable(@Model.verdureCrudePR.ToString().ToLower()),
+        _verdureCrudeCE: ko.observable(@Model.verdureCrudeCE.ToString().ToLower()),
+        _verdureCrudeFP: ko.observable(@Model.verdureCrudeFP.ToString().ToLower()),
+        _patateNC: ko.observable(@Model.patateNC.ToString().ToLower()),
+        _patateCO: ko.observable(@Model.patateCO.ToString().ToLower()),
+        _patatePR: ko.observable(@Model.patatePR.ToString().ToLower()),
+        _patateCE: ko.observable(@Model.patateCE.ToString().ToLower()),
+        _patateFP: ko.observable(@Model.patateFP.ToString().ToLower()),
+        _verdureCotteNC: ko.observable(@Model.verdureCotteNC.ToString().ToLower()),
+        _verdureCotteCO: ko.observable(@Model.verdureCotteCO.ToString().ToLower()),
+        _verdureCottePR: ko.observable(@Model.verdureCottePR.ToString().ToLower()),
+        _verdureCotteCE: ko.observable(@Model.verdureCotteCE.ToString().ToLower()),
+        _verdureCotteFP: ko.observable(@Model.verdureCotteFP.ToString().ToLower()),
+        _paneBiancoNC: ko.observable(@Model.paneBiancoNC.ToString().ToLower()),
+        _paneBiancoCO: ko.observable(@Model.paneBiancoCO.ToString().ToLower()),
+        _paneBiancoPR: ko.observable(@Model.paneBiancoPR.ToString().ToLower()),
+        _paneBiancoCE: ko.observable(@Model.paneBiancoCE.ToString().ToLower()),
+        _paneBiancoFP: ko.observable(@Model.paneBiancoFP.ToString().ToLower()),
+        _paneNeroNC: ko.observable(@Model.paneNeroNC.ToString().ToLower()),
+        _paneNeroCO: ko.observable(@Model.paneNeroCO.ToString().ToLower()),
+        _paneNeroPR: ko.observable(@Model.paneNeroPR.ToString().ToLower()),
+        _paneNeroCE: ko.observable(@Model.paneNeroCE.ToString().ToLower()),
+        _paneNeroFP: ko.observable(@Model.paneNeroFP.ToString().ToLower()),
+        _pizzaNC: ko.observable(@Model.pizzaNC.ToString().ToLower()),
+        _pizzaCO: ko.observable(@Model.pizzaCO.ToString().ToLower()),
+        _pizzaPR: ko.observable(@Model.pizzaPR.ToString().ToLower()),
+        _pizzaCE: ko.observable(@Model.pizzaCE.ToString().ToLower()),
+        _pizzaFP: ko.observable(@Model.pizzaFP.ToString().ToLower()),
+        _grissiniNC: ko.observable(@Model.grissiniNC.ToString().ToLower()),
+        _grissiniCO: ko.observable(@Model.grissiniCO.ToString().ToLower()),
+        _grissiniPR: ko.observable(@Model.grissiniPR.ToString().ToLower()),
+        _grissiniCE: ko.observable(@Model.grissiniCE.ToString().ToLower()),
+        _grissiniFP: ko.observable(@Model.grissiniFP.ToString().ToLower()),
+        _pastaAsciuttaNC: ko.observable(@Model.pastaAsciuttaNC.ToString().ToLower()),
+        _pastaAsciuttaCO: ko.observable(@Model.pastaAsciuttaCO.ToString().ToLower()),
+        _pastaAsciuttaPR: ko.observable(@Model.pastaAsciuttaPR.ToString().ToLower()),
+        _pastaAsciuttaCE: ko.observable(@Model.pastaAsciuttaCE.ToString().ToLower()),
+        _pastaAsciuttaFP: ko.observable(@Model.pastaAsciuttaFP.ToString().ToLower()),
+        _pastaRipienaNC: ko.observable(@Model.pastaRipienaNC.ToString().ToLower()),
+        _pastaRipienaCO: ko.observable(@Model.pastaRipienaCO.ToString().ToLower()),
+        _pastaRipienaPR: ko.observable(@Model.pastaRipienaPR.ToString().ToLower()),
+        _pastaRipienaCE: ko.observable(@Model.pastaRipienaCE.ToString().ToLower()),
+        _pastaRipienaFP: ko.observable(@Model.pastaRipienaFP.ToString().ToLower()),
+        _risoBiancoNC: ko.observable(@Model.risoBiancoNC.ToString().ToLower()),
+        _risoBiancoCO: ko.observable(@Model.risoBiancoCO.ToString().ToLower()),
+        _risoBiancoPR: ko.observable(@Model.risoBiancoPR.ToString().ToLower()),
+        _risoBiancoCE: ko.observable(@Model.risoBiancoCE.ToString().ToLower()),
+        _risoBiancoFP: ko.observable(@Model.risoBiancoFP.ToString().ToLower()),
+        _risoIntegraleNC: ko.observable(@Model.risoIntegraleNC.ToString().ToLower()),
+        _risoIntegraleCO: ko.observable(@Model.risoIntegraleCO.ToString().ToLower()),
+        _risoIntegralePR: ko.observable(@Model.risoIntegralePR.ToString().ToLower()),
+        _risoIntegraleCE: ko.observable(@Model.risoIntegraleCE.ToString().ToLower()),
+        _risoIntegraleFP: ko.observable(@Model.risoIntegraleFP.ToString().ToLower()),
+        _cerealiChiccoNC: ko.observable(@Model.cerealiChiccoNC.ToString().ToLower()),
+        _cerealiChiccoCO: ko.observable(@Model.cerealiChiccoCO.ToString().ToLower()),
+        _cerealiChiccoPR: ko.observable(@Model.cerealiChiccoPR.ToString().ToLower()),
+        _cerealiChiccoCE: ko.observable(@Model.cerealiChiccoCE.ToString().ToLower()),
+        _cerealiChiccoFP: ko.observable(@Model.cerealiChiccoFP.ToString().ToLower()),
+        _fiocchiNonZuccheratiNC: ko.observable(@Model.fiocchiNonZuccheratiNC.ToString().ToLower()),
+        _fiocchiNonZuccheratiCO: ko.observable(@Model.fiocchiNonZuccheratiCO.ToString().ToLower()),
+        _fiocchiNonZuccheratiPR: ko.observable(@Model.fiocchiNonZuccheratiPR.ToString().ToLower()),
+        _fiocchiNonZuccheratiCE: ko.observable(@Model.fiocchiNonZuccheratiCE.ToString().ToLower()),
+        _fiocchiNonZuccheratiFP: ko.observable(@Model.fiocchiNonZuccheratiFP.ToString().ToLower()),
+        _fiocchiZuccheratiNC: ko.observable(@Model.fiocchiZuccheratiNC.ToString().ToLower()),
+        _fiocchiZuccheratiCO: ko.observable(@Model.fiocchiZuccheratiCO.ToString().ToLower()),
+        _fiocchiZuccheratiPR: ko.observable(@Model.fiocchiZuccheratiPR.ToString().ToLower()),
+        _fiocchiZuccheratiCE: ko.observable(@Model.fiocchiZuccheratiCE.ToString().ToLower()),
+        _fiocchiZuccheratiFP: ko.observable(@Model.fiocchiZuccheratiFP.ToString().ToLower()),
+        _legumiNC: ko.observable(@Model.legumiNC.ToString().ToLower()),
+        _legumiCO: ko.observable(@Model.legumiCO.ToString().ToLower()),
+        _legumiPR: ko.observable(@Model.legumiPR.ToString().ToLower()),
+        _legumiCE: ko.observable(@Model.legumiCE.ToString().ToLower()),
+        _legumiFP: ko.observable(@Model.legumiFP.ToString().ToLower()),
+        _carniRosseNC: ko.observable(@Model.carniRosseNC.ToString().ToLower()),
+        _carniRosseCO: ko.observable(@Model.carniRosseCO.ToString().ToLower()),
+        _carniRossePR: ko.observable(@Model.carniRossePR.ToString().ToLower()),
+        _carniRosseCE: ko.observable(@Model.carniRosseCE.ToString().ToLower()),
+        _carniRosseFP: ko.observable(@Model.carniRosseFP.ToString().ToLower()),
+        _salumiNC: ko.observable(@Model.salumiNC.ToString().ToLower()),
+        _salumiCO: ko.observable(@Model.salumiCO.ToString().ToLower()),
+        _salumiPR: ko.observable(@Model.salumiPR.ToString().ToLower()),
+        _salumiCE: ko.observable(@Model.salumiCE.ToString().ToLower()),
+        _salumiFP: ko.observable(@Model.salumiFP.ToString().ToLower()),
+        _carniBiancheNC: ko.observable(@Model.carniBiancheNC.ToString().ToLower()),
+        _carniBiancheCO: ko.observable(@Model.carniBiancheCO.ToString().ToLower()),
+        _carniBianchePR: ko.observable(@Model.carniBianchePR.ToString().ToLower()),
+        _carniBiancheCE: ko.observable(@Model.carniBiancheCE.ToString().ToLower()),
+        _carniBiancheFP: ko.observable(@Model.carniBiancheFP.ToString().ToLower()),
+        _pesceNC: ko.observable(@Model.pesceNC.ToString().ToLower()),
+        _pesceCO: ko.observable(@Model.pesceCO.ToString().ToLower()),
+        _pescePR: ko.observable(@Model.pescePR.ToString().ToLower()),
+        _pesceCE: ko.observable(@Model.pesceCE.ToString().ToLower()),
+        _pesceFP: ko.observable(@Model.pesceFP.ToString().ToLower()),
+        _formaggiNC: ko.observable(@Model.formaggiNC.ToString().ToLower()),
+        _formaggiCO: ko.observable(@Model.formaggiCO.ToString().ToLower()),
+        _formaggiPR: ko.observable(@Model.formaggiPR.ToString().ToLower()),
+        _formaggiCE: ko.observable(@Model.formaggiCE.ToString().ToLower()),
+        _formaggiFP: ko.observable(@Model.formaggiFP.ToString().ToLower()),
+        _pietanzeNC: ko.observable(@Model.pietanzeNC.ToString().ToLower()),
+        _pietanzeCO: ko.observable(@Model.pietanzeCO.ToString().ToLower()),
+        _pietanzePR: ko.observable(@Model.pietanzePR.ToString().ToLower()),
+        _pietanzeCE: ko.observable(@Model.pietanzeCE.ToString().ToLower()),
+        _pietanzeFP: ko.observable(@Model.pietanzeFP.ToString().ToLower()),
+        _nociNC: ko.observable(@Model.nociNC.ToString().ToLower()),
+        _nociCO: ko.observable(@Model.nociCO.ToString().ToLower()),
+        _nociPR: ko.observable(@Model.nociPR.ToString().ToLower()),
+        _nociCE: ko.observable(@Model.nociCE.ToString().ToLower()),
+        _nociFP: ko.observable(@Model.nociFP.ToString().ToLower()),
+        _snackNC: ko.observable(@Model.snackNC.ToString().ToLower()),
+        _snackCO: ko.observable(@Model.snackCO.ToString().ToLower()),
+        _snackPR: ko.observable(@Model.snackPR.ToString().ToLower()),
+        _snackCE: ko.observable(@Model.snackCE.ToString().ToLower()),
+        _snackFP: ko.observable(@Model.snackFP.ToString().ToLower()),
+        _uovaNC: ko.observable(@Model.uovaNC.ToString().ToLower()),
+        _uovaCO: ko.observable(@Model.uovaCO.ToString().ToLower()),
+        _uovaPR: ko.observable(@Model.uovaPR.ToString().ToLower()),
+        _uovaCE: ko.observable(@Model.uovaCE.ToString().ToLower()),
+        _uovaFP: ko.observable(@Model.uovaFP.ToString().ToLower()),
+        _zuccheroNC: ko.observable(@Model.zuccheroNC.ToString().ToLower()),
+        _zuccheroCO: ko.observable(@Model.zuccheroCO.ToString().ToLower()),
+        _zuccheroPR: ko.observable(@Model.zuccheroPR.ToString().ToLower()),
+        _zuccheroCE: ko.observable(@Model.zuccheroCE.ToString().ToLower()),
+        _zuccheroFP: ko.observable(@Model.zuccheroFP.ToString().ToLower()),
+        _saleNC: ko.observable(@Model.saleNC.ToString().ToLower()),
+        _saleCO: ko.observable(@Model.saleCO.ToString().ToLower()),
+        _salePR: ko.observable(@Model.salePR.ToString().ToLower()),
+        _saleCE: ko.observable(@Model.saleCE.ToString().ToLower()),
+        _saleFP: ko.observable(@Model.saleFP.ToString().ToLower()),
+        _olioExtravergineNC: ko.observable(@Model.olioExtravergineNC.ToString().ToLower()),
+        _olioExtravergineCO: ko.observable(@Model.olioExtravergineCO.ToString().ToLower()),
+        _olioExtraverginePR: ko.observable(@Model.olioExtraverginePR.ToString().ToLower()),
+        _olioExtravergineCE: ko.observable(@Model.olioExtravergineCE.ToString().ToLower()),
+        _olioExtravergineFP: ko.observable(@Model.olioExtravergineFP.ToString().ToLower()),
+        _burroNC: ko.observable(@Model.burroNC.ToString().ToLower()),
+        _burroCO: ko.observable(@Model.burroCO.ToString().ToLower()),
+        _burroPR: ko.observable(@Model.burroPR.ToString().ToLower()),
+        _burroCE: ko.observable(@Model.burroCE.ToString().ToLower()),
+        _burroFP: ko.observable(@Model.burroFP.ToString().ToLower()),
+        _margarinaNC: ko.observable(@Model.margarinaNC.ToString().ToLower()),
+        _margarinaCO: ko.observable(@Model.margarinaCO.ToString().ToLower()),
+        _margarinaPR: ko.observable(@Model.margarinaPR.ToString().ToLower()),
+        _margarinaCE: ko.observable(@Model.margarinaCE.ToString().ToLower()),
+        _margarinaFP: ko.observable(@Model.margarinaFP.ToString().ToLower()),
+        _altro1: ko.observable("@Model.altro1"),
+        _altro1NC: ko.observable(@Model.altro1NC.ToString().ToLower()),
+        _altro1CO: ko.observable(@Model.altro1CO.ToString().ToLower()),
+        _altro1PR: ko.observable(@Model.altro1PR.ToString().ToLower()),
+        _altro1CE: ko.observable(@Model.altro1CE.ToString().ToLower()),
+        _altro1FP: ko.observable(@Model.altro1FP.ToString().ToLower()),
+        _altro2: ko.observable("@Model.altro2"),
+        _altro2NC: ko.observable(@Model.altro2NC.ToString().ToLower()),
+        _altro2CO: ko.observable(@Model.altro2CO.ToString().ToLower()),
+        _altro2PR: ko.observable(@Model.altro2PR.ToString().ToLower()),
+        _altro2CE: ko.observable(@Model.altro2CE.ToString().ToLower()),
+        _altro2FP: ko.observable(@Model.altro2FP.ToString().ToLower()),
+        _altro3: ko.observable("@Model.altro3"),
+        _altro3NC: ko.observable(@Model.altro3NC.ToString().ToLower()),
+        _altro3CO: ko.observable(@Model.altro3CO.ToString().ToLower()),
+        _altro3PR: ko.observable(@Model.altro3PR.ToString().ToLower()),
+        _altro3CE: ko.observable(@Model.altro3CE.ToString().ToLower()),
+        _altro3FP: ko.observable(@Model.altro3FP.ToString().ToLower()),
+        _altro4: ko.observable("@Model.altro4"),
+        _altro4NC: ko.observable(@Model.altro4NC.ToString().ToLower()),
+        _altro4CO: ko.observable(@Model.altro4CO.ToString().ToLower()),
+        _altro4PR: ko.observable(@Model.altro4PR.ToString().ToLower()),
+        _altro4CE: ko.observable(@Model.altro4CE.ToString().ToLower()),
+        _altro4FP: ko.observable(@Model.altro4FP.ToString().ToLower()),
+        _altro5: ko.observable("@Model.altro5"),
+        _altro5NC: ko.observable(@Model.altro5NC.ToString().ToLower()),
+        _altro5CO: ko.observable(@Model.altro5CO.ToString().ToLower()),
+        _altro5PR: ko.observable(@Model.altro5PR.ToString().ToLower()),
+        _altro5CE: ko.observable(@Model.altro5CE.ToString().ToLower()),
+        _altro5FP: ko.observable(@Model.altro5FP.ToString().ToLower())
+    };
+
+    viewModel._merendineNC.subscribe(function (v) {
+        if (v) {
+            viewModel._merendineCO(false);
+            viewModel._merendinePR(false);
+            viewModel._merendineCE(false);
+            viewModel._merendineFP(false);
+        }
+    });
+
+    viewModel._cioccolatoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._cioccolatoCO(false);
+            viewModel._cioccolatoPR(false);
+            viewModel._cioccolatoCE(false);
+            viewModel._cioccolatoFP(false);
+        }
+    });
+
+    viewModel._bibiteNC.subscribe(function (v) {
+        if (v) {
+            viewModel._bibiteCO(false);
+            viewModel._bibitePR(false);
+            viewModel._bibiteCE(false);
+            viewModel._bibiteFP(false);
+        }
+    });
+
+    viewModel._bevandeAlcolicheNC.subscribe(function (v) {
+        if (v) {
+            viewModel._bevandeAlcolicheCO(false);
+            viewModel._bevandeAlcolichePR(false);
+            viewModel._bevandeAlcolicheCE(false);
+            viewModel._bevandeAlcolicheFP(false);
+        }
+    });
+
+    viewModel._latteNC.subscribe(function (v) {
+        if (v) {
+            viewModel._latteCO(false);
+            viewModel._lattePR(false);
+            viewModel._latteCE(false);
+            viewModel._latteFP(false);
+        }
+    });
+
+    viewModel._yogurtZuccheratoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._yogurtZuccheratoCO(false);
+            viewModel._yogurtZuccheratoPR(false);
+            viewModel._yogurtZuccheratoCE(false);
+            viewModel._yogurtZuccheratoFP(false);
+        }
+    });
+
+    viewModel._yogurtBiancoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._yogurtBiancoCO(false);
+            viewModel._yogurtBiancoPR(false);
+            viewModel._yogurtBiancoCE(false);
+            viewModel._yogurtBiancoFP(false);
+        }
+    });
+
+    viewModel._fruttaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._fruttaCO(false);
+            viewModel._fruttaPR(false);
+            viewModel._fruttaCE(false);
+            viewModel._fruttaFP(false);
+        }
+    });
+
+    viewModel._verdureCrudeNC.subscribe(function (v) {
+        if (v) {
+            viewModel._verdureCrudeCO(false);
+            viewModel._verdureCrudePR(false);
+            viewModel._verdureCrudeCE(false);
+            viewModel._verdureCrudeFP(false);
+        }
+    });
+
+    viewModel._patateNC.subscribe(function (v) {
+        if (v) {
+            viewModel._patateCO(false);
+            viewModel._patatePR(false);
+            viewModel._patateCE(false);
+            viewModel._patateFP(false);
+        }
+    });
+
+    viewModel._verdureCotteNC.subscribe(function (v) {
+        if (v) {
+            viewModel._verdureCotteCO(false);
+            viewModel._verdureCottePR(false);
+            viewModel._verdureCotteCE(false);
+            viewModel._verdureCotteFP(false);
+        }
+    });
+
+    viewModel._paneBiancoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._paneBiancoCO(false);
+            viewModel._paneBiancoPR(false);
+            viewModel._paneBiancoCE(false);
+            viewModel._paneBiancoFP(false);
+        }
+    });
+
+    viewModel._paneNeroNC.subscribe(function (v) {
+        if (v) {
+            viewModel._paneNeroCO(false);
+            viewModel._paneNeroPR(false);
+            viewModel._paneNeroCE(false);
+            viewModel._paneNeroFP(false);
+        }
+    });
+
+    viewModel._pizzaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._pizzaCO(false);
+            viewModel._pizzaPR(false);
+            viewModel._pizzaCE(false);
+            viewModel._pizzaFP(false);
+        }
+    });
+
+    viewModel._grissiniNC.subscribe(function (v) {
+        if (v) {
+            viewModel._grissiniCO(false);
+            viewModel._grissiniPR(false);
+            viewModel._grissiniCE(false);
+            viewModel._grissiniFP(false);
+        }
+    });
+
+    viewModel._pastaAsciuttaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._pastaAsciuttaCO(false);
+            viewModel._pastaAsciuttaPR(false);
+            viewModel._pastaAsciuttaCE(false);
+            viewModel._pastaAsciuttaFP(false);
+        }
+    });
+
+    viewModel._pastaRipienaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._pastaRipienaCO(false);
+            viewModel._pastaRipienaPR(false);
+            viewModel._pastaRipienaCE(false);
+            viewModel._pastaRipienaFP(false);
+        }
+    });
+
+    viewModel._risoBiancoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._risoBiancoCO(false);
+            viewModel._risoBiancoPR(false);
+            viewModel._risoBiancoCE(false);
+            viewModel._risoBiancoFP(false);
+        }
+    });
+
+    viewModel._risoIntegraleNC.subscribe(function (v) {
+        if (v) {
+            viewModel._risoIntegraleCO(false);
+            viewModel._risoIntegralePR(false);
+            viewModel._risoIntegraleCE(false);
+            viewModel._risoIntegraleFP(false);
+        }
+    });
+    
+    viewModel._cerealiChiccoNC.subscribe(function (v) {
+        if (v) {
+            viewModel._cerealiChiccoCO(false);
+            viewModel._cerealiChiccoPR(false);
+            viewModel._cerealiChiccoCE(false);
+            viewModel._cerealiChiccoFP(false);
+        }
+    });
+    
+    viewModel._fiocchiNonZuccheratiNC.subscribe(function (v) {
+        if (v) {
+            viewModel._fiocchiNonZuccheratiCO(false);
+            viewModel._fiocchiNonZuccheratiPR(false);
+            viewModel._fiocchiNonZuccheratiCE(false);
+            viewModel._fiocchiNonZuccheratiFP(false);
+        }
+    });
+    
+    viewModel._fiocchiZuccheratiNC.subscribe(function (v) {
+        if (v) {
+            viewModel._fiocchiZuccheratiCO(false);
+            viewModel._fiocchiZuccheratiPR(false);
+            viewModel._fiocchiZuccheratiCE(false);
+            viewModel._fiocchiZuccheratiFP(false);
+        }
+    });
+    
+    viewModel._legumiNC.subscribe(function (v) {
+        if (v) {
+            viewModel._legumiCO(false);
+            viewModel._legumiPR(false);
+            viewModel._legumiCE(false);
+            viewModel._legumiFP(false);
+        }
+    });
+    
+    viewModel._carniRosseNC.subscribe(function (v) {
+        if (v) {
+            viewModel._carniRosseCO(false);
+            viewModel._carniRossePR(false);
+            viewModel._carniRosseCE(false);
+            viewModel._carniRosseFP(false);
+        }
+    });
+    
+    viewModel._salumiNC.subscribe(function (v) {
+        if (v) {
+            viewModel._salumiCO(false);
+            viewModel._salumiPR(false);
+            viewModel._salumiCE(false);
+            viewModel._salumiFP(false);
+        }
+    });
+    
+    viewModel._carniBiancheNC.subscribe(function (v) {
+        if (v) {
+            viewModel._carniBiancheCO(false);
+            viewModel._carniBianchePR(false);
+            viewModel._carniBiancheCE(false);
+            viewModel._carniBiancheFP(false);
+        }
+    });
+    
+    viewModel._pesceNC.subscribe(function (v) {
+        if (v) {
+            viewModel._pesceCO(false);
+            viewModel._pescePR(false);
+            viewModel._pesceCE(false);
+            viewModel._pesceFP(false);
+        }
+    });
+    
+    viewModel._formaggiNC.subscribe(function (v) {
+        if (v) {
+            viewModel._formaggiCO(false);
+            viewModel._formaggiPR(false);
+            viewModel._formaggiCE(false);
+            viewModel._formaggiFP(false);
+        }
+    });
+    
+    viewModel._pietanzeNC.subscribe(function (v) {
+        if (v) {
+            viewModel._pietanzeCO(false);
+            viewModel._pietanzePR(false);
+            viewModel._pietanzeCE(false);
+            viewModel._pietanzeFP(false);
+        }
+    });
+    
+    viewModel._nociNC.subscribe(function (v) {
+        if (v) {
+            viewModel._nociCO(false);
+            viewModel._nociPR(false);
+            viewModel._nociCE(false);
+            viewModel._nociFP(false);
+        }
+    });
+    
+    viewModel._snackNC.subscribe(function (v) {
+        if (v) {
+            viewModel._snackCO(false);
+            viewModel._snackPR(false);
+            viewModel._snackCE(false);
+            viewModel._snackFP(false);
+        }
+    });
+    
+    viewModel._uovaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._uovaCO(false);
+            viewModel._uovaPR(false);
+            viewModel._uovaCE(false);
+            viewModel._uovaFP(false);
+        }
+    });
+    
+    viewModel._zuccheroNC.subscribe(function (v) {
+        if (v) {
+            viewModel._zuccheroCO(false);
+            viewModel._zuccheroPR(false);
+            viewModel._zuccheroCE(false);
+            viewModel._zuccheroFP(false);
+        }
+    });
+    
+    viewModel._saleNC.subscribe(function (v) {
+        if (v) {
+            viewModel._saleCO(false);
+            viewModel._salePR(false);
+            viewModel._saleCE(false);
+            viewModel._saleFP(false);
+        }
+    });
+    
+    viewModel._olioExtravergineNC.subscribe(function (v) {
+        if (v) {
+            viewModel._olioExtravergineCO(false);
+            viewModel._olioExtraverginePR(false);
+            viewModel._olioExtravergineCE(false);
+            viewModel._olioExtravergineFP(false);
+        }
+    });
+    
+    viewModel._burroNC.subscribe(function (v) {
+        if (v) {
+            viewModel._burroCO(false);
+            viewModel._burroPR(false);
+            viewModel._burroCE(false);
+            viewModel._burroFP(false);
+        }
+    });
+    
+    viewModel._margarinaNC.subscribe(function (v) {
+        if (v) {
+            viewModel._margarinaCO(false);
+            viewModel._margarinaPR(false);
+            viewModel._margarinaCE(false);
+            viewModel._margarinaFP(false);
+        }
+    });
+
+    viewModel._altro1.subscribe(function (v) {
+        if (v == "") {
+            viewModel._altro1NC(false);
+            viewModel._altro1CO(false);
+            viewModel._altro1PR(false);
+            viewModel._altro1CE(false);
+            viewModel._altro1FP(false);
+        }
+    });
+    viewModel._altro2.subscribe(function (v) {
+        if (v == "") {
+            viewModel._altro2NC(false);
+            viewModel._altro2CO(false);
+            viewModel._altro2PR(false);
+            viewModel._altro2CE(false);
+            viewModel._altro2FP(false);
+        }
+    });
+    viewModel._altro3.subscribe(function (v) {
+        if (v == "") {
+            viewModel._altro3NC(false);
+            viewModel._altro3CO(false);
+            viewModel._altro3PR(false);
+            viewModel._altro3CE(false);
+            viewModel._altro3FP(false);
+        }
+    });
+    viewModel._altro4.subscribe(function (v) {
+        if (v == "") {
+            viewModel._altro4NC(false);
+            viewModel._altro4CO(false);
+            viewModel._altro4PR(false);
+            viewModel._altro4CE(false);
+            viewModel._altro4FP(false);
+        }
+    });
+    viewModel._altro5.subscribe(function (v) {
+        if (v == "") {
+            viewModel._altro5NC(false);
+            viewModel._altro5CO(false);
+            viewModel._altro5PR(false);
+            viewModel._altro5CE(false);
+            viewModel._altro5FP(false);
+        }
+    });
+    $(document).ready(function () {
+        ko.applyBindings(viewModel);
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+</script>
+
+<h2>Diario Dieta 24 ore @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro)
+        @Html.HiddenFor(model => model.dataInserimento)
+        @Html.HiddenFor(model => model.userName)
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.data, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.data)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.ieri, new { @class = "control-label col-md-4" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 1, new { data_bind = "checkedValue: 1, checked : _ieri" })
+                        lunedì
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 2, new { data_bind = "checkedValue: 2, checked : _ieri" })
+                        martedì
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 3, new { data_bind = "checkedValue: 3, checked : _ieri" })
+                        mercoledì
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 4, new { data_bind = "checkedValue: 4, checked : _ieri" })
+                        giovedì
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 5, new { data_bind = "checkedValue: 5,checked : _ieri" })
+                        venerdì
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 6, new { data_bind = "checkedValue: 6, checked : _ieri" })
+                        sabato
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.ieri, 7, new { data_bind = "checkedValue: 7, checked : _ieri" })
+                        domenica
+                    </label>
+                </div>
+                @Html.HiddenFor(model => model.ieri, null)
+                @Html.ValidationMessageFor(model => model.ieri)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.merendineNC, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.merendineNC, new { data_bind = "checked: _merendineNC" }) Non consumato
+
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.merendineCO, new { data_bind = "checked: _merendineCO, enable: _merendineNC()!=true" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.merendinePR, new { data_bind = "checked: _merendinePR, enable: _merendineNC()!=true" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.merendineCE, new { data_bind = "checked: _merendineCE, enable: _merendineNC()!=true" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.merendineFP, new { data_bind = "checked: _merendineFP, enable: _merendineNC()!=true" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cioccolatoNC, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.cioccolatoNC, new { data_bind = "checked: _cioccolatoNC" }) Non consumato
+
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.cioccolatoCO, new { data_bind = "checked: _cioccolatoCO, enable: _cioccolatoNC()!=true" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.cioccolatoPR, new { data_bind = "checked: _cioccolatoPR, enable: _cioccolatoNC()!=true" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.cioccolatoCE, new { data_bind = "checked: _cioccolatoCE, enable: _cioccolatoNC()!=true" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.cioccolatoFP, new { data_bind = "checked: _cioccolatoFP, enable: _cioccolatoNC()!=true" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bibiteNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bibiteNC, new { data_bind = "checked: _bibiteNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bibiteCO, new { data_bind = "checked: _bibiteCO, enable: _bibiteNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bibitePR, new { data_bind = "checked: _bibitePR, enable: _bibiteNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bibiteCE, new { data_bind = "checked: _bibiteCE, enable: _bibiteNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bibiteFP, new { data_bind = "checked: _bibiteFP, enable: _bibiteNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bevandeAlcolicheNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bevandeAlcolicheNC, new { data_bind = "checked: _bevandeAlcolicheNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bevandeAlcolicheCO, new { data_bind = "checked: _bevandeAlcolicheCO, enable: _bevandeAlcolicheNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bevandeAlcolichePR, new { data_bind = "checked: _bevandeAlcolichePR, enable: _bevandeAlcolicheNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bevandeAlcolicheCE, new { data_bind = "checked: _bevandeAlcolicheCE, enable: _bevandeAlcolicheNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.bevandeAlcolicheFP, new { data_bind = "checked: _bevandeAlcolicheFP, enable: _bevandeAlcolicheNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.latteNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.latteNC, new { data_bind = "checked: _latteNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.latteCO, new { data_bind = "checked: _latteCO, enable: _latteNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.lattePR, new { data_bind = "checked: _lattePR, enable: _latteNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.latteCE, new { data_bind = "checked: _latteCE, enable: _latteNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.latteFP, new { data_bind = "checked: _latteFP, enable: _latteNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.yogurtZuccheratoNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtZuccheratoNC, new { data_bind = "checked: _yogurtZuccheratoNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtZuccheratoCO, new { data_bind = "checked: _yogurtZuccheratoCO, enable: _yogurtZuccheratoNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtZuccheratoPR, new { data_bind = "checked: _yogurtZuccheratoPR, enable: _yogurtZuccheratoNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtZuccheratoCE, new { data_bind = "checked: _yogurtZuccheratoCE, enable: _yogurtZuccheratoNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtZuccheratoFP, new { data_bind = "checked: _yogurtZuccheratoFP, enable: _yogurtZuccheratoNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.yogurtBiancoNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtBiancoNC, new { data_bind = "checked: _yogurtBiancoNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtBiancoCO, new { data_bind = "checked: _yogurtBiancoCO, enable: _yogurtBiancoNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtBiancoPR, new { data_bind = "checked: _yogurtBiancoPR, enable: _yogurtBiancoNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtBiancoCE, new { data_bind = "checked: _yogurtBiancoCE, enable: _yogurtBiancoNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.yogurtBiancoFP, new { data_bind = "checked: _yogurtBiancoFP, enable: _yogurtBiancoNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fruttaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fruttaNC, new { data_bind = "checked: _fruttaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fruttaCO, new { data_bind = "checked: _fruttaCO, enable: _fruttaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fruttaPR, new { data_bind = "checked: _fruttaPR, enable: _fruttaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fruttaCE, new { data_bind = "checked: _fruttaCE, enable: _fruttaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fruttaFP, new { data_bind = "checked: _fruttaFP, enable: _fruttaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.verdureCrudeNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCrudeNC, new { data_bind = "checked: _verdureCrudeNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCrudeCO, new { data_bind = "checked: _verdureCrudeCO, enable: _verdureCrudeNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCrudePR, new { data_bind = "checked: _verdureCrudePR, enable: _verdureCrudeNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCrudeCE, new { data_bind = "checked: _verdureCrudeCE, enable: _verdureCrudeNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCrudeFP, new { data_bind = "checked: _verdureCrudeFP, enable: _verdureCrudeNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.patateNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.patateNC, new { data_bind = "checked: _patateNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.patateCO, new { data_bind = "checked: _patateCO, enable: _patateNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.patatePR, new { data_bind = "checked: _patatePR, enable: _patateNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.patateCE, new { data_bind = "checked: _patateCE, enable: _patateNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.patateFP, new { data_bind = "checked: _patateFP, enable: _patateNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.verdureCotteNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCotteNC, new { data_bind = "checked: _verdureCotteNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCotteCO, new { data_bind = "checked: _verdureCotteCO, enable: _verdureCotteNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCottePR, new { data_bind = "checked: _verdureCottePR, enable: _verdureCotteNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCotteCE, new { data_bind = "checked: _verdureCotteCE, enable: _verdureCotteNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.verdureCotteFP, new { data_bind = "checked: _verdureCotteFP, enable: _verdureCotteNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.paneBiancoNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneBiancoNC, new { data_bind = "checked: _paneBiancoNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneBiancoCO, new { data_bind = "checked: _paneBiancoCO, enable: _paneBiancoNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneBiancoPR, new { data_bind = "checked: _paneBiancoPR, enable: _paneBiancoNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneBiancoCE, new { data_bind = "checked: _paneBiancoCE, enable: _paneBiancoNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneBiancoFP, new { data_bind = "checked: _paneBiancoFP, enable: _paneBiancoNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.paneNeroNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneNeroNC, new { data_bind = "checked: _paneNeroNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneNeroCO, new { data_bind = "checked: _paneNeroCO, enable: _paneNeroNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneNeroPR, new { data_bind = "checked: _paneNeroPR, enable: _paneNeroNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneNeroCE, new { data_bind = "checked: _paneNeroCE, enable: _paneNeroNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.paneNeroFP, new { data_bind = "checked: _paneNeroFP, enable: _paneNeroNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pizzaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pizzaNC, new { data_bind = "checked: _pizzaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pizzaCO, new { data_bind = "checked: _pizzaCO, enable: _pizzaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pizzaPR, new { data_bind = "checked: _pizzaPR, enable: _pizzaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pizzaCE, new { data_bind = "checked: _pizzaCE, enable: _pizzaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pizzaFP, new { data_bind = "checked: _pizzaFP, enable: _pizzaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.grissiniNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.grissiniNC, new { data_bind = "checked: _grissiniNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.grissiniCO, new { data_bind = "checked: _grissiniCO, enable: _grissiniNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.grissiniPR, new { data_bind = "checked: _grissiniPR, enable: _grissiniNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.grissiniCE, new { data_bind = "checked: _grissiniCE, enable: _grissiniNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.grissiniFP, new { data_bind = "checked: _grissiniFP, enable: _grissiniNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pastaAsciuttaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaAsciuttaNC, new { data_bind = "checked: _pastaAsciuttaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaAsciuttaCO, new { data_bind = "checked: _pastaAsciuttaCO, enable: _pastaAsciuttaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaAsciuttaPR, new { data_bind = "checked: _pastaAsciuttaPR, enable: _pastaAsciuttaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaAsciuttaCE, new { data_bind = "checked: _pastaAsciuttaCE, enable: _pastaAsciuttaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaAsciuttaFP, new { data_bind = "checked: _pastaAsciuttaFP, enable: _pastaAsciuttaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pastaRipienaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaRipienaNC, new { data_bind = "checked: _pastaRipienaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaRipienaCO, new { data_bind = "checked: _pastaRipienaCO, enable: _pastaRipienaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaRipienaPR, new { data_bind = "checked: _pastaRipienaPR, enable: _pastaRipienaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaRipienaCE, new { data_bind = "checked: _pastaRipienaCE, enable: _pastaRipienaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pastaRipienaFP, new { data_bind = "checked: _pastaRipienaFP, enable: _pastaRipienaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.risoBiancoNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoBiancoNC, new { data_bind = "checked: _risoBiancoNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoBiancoCO, new { data_bind = "checked: _risoBiancoCO, enable: _risoBiancoNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoBiancoPR, new { data_bind = "checked: _risoBiancoPR, enable: _risoBiancoNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoBiancoCE, new { data_bind = "checked: _risoBiancoCE, enable: _risoBiancoNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoBiancoFP, new { data_bind = "checked: _risoBiancoFP, enable: _risoBiancoNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.risoIntegraleNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoIntegraleNC, new { data_bind = "checked: _risoIntegraleNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoIntegraleCO, new { data_bind = "checked: _risoIntegraleCO, enable: _risoIntegraleNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoIntegralePR, new { data_bind = "checked: _risoIntegralePR, enable: _risoIntegraleNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoIntegraleCE, new { data_bind = "checked: _risoIntegraleCE, enable: _risoIntegraleNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.risoIntegraleFP, new { data_bind = "checked: _risoIntegraleFP, enable: _risoIntegraleNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cerealiChiccoNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.cerealiChiccoNC, new { data_bind = "checked: _cerealiChiccoNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.cerealiChiccoCO, new { data_bind = "checked: _cerealiChiccoCO, enable: _cerealiChiccoNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.cerealiChiccoPR, new { data_bind = "checked: _cerealiChiccoPR, enable: _cerealiChiccoNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.cerealiChiccoCE, new { data_bind = "checked: _cerealiChiccoCE, enable: _cerealiChiccoNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.cerealiChiccoFP, new { data_bind = "checked: _cerealiChiccoFP, enable: _cerealiChiccoNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fiocchiNonZuccheratiNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiNonZuccheratiNC, new { data_bind = "checked: _fiocchiNonZuccheratiNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiNonZuccheratiCO, new { data_bind = "checked: _fiocchiNonZuccheratiCO, enable: _fiocchiNonZuccheratiNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiNonZuccheratiPR, new { data_bind = "checked: _fiocchiNonZuccheratiPR, enable: _fiocchiNonZuccheratiNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiNonZuccheratiCE, new { data_bind = "checked: _fiocchiNonZuccheratiCE, enable: _fiocchiNonZuccheratiNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiNonZuccheratiFP, new { data_bind = "checked: _fiocchiNonZuccheratiFP, enable: _fiocchiNonZuccheratiNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fiocchiZuccheratiNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiZuccheratiNC, new { data_bind = "checked: _fiocchiZuccheratiNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiZuccheratiCO, new { data_bind = "checked: _fiocchiZuccheratiCO, enable: _fiocchiZuccheratiNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiZuccheratiPR, new { data_bind = "checked: _fiocchiZuccheratiPR, enable: _fiocchiZuccheratiNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiZuccheratiCE, new { data_bind = "checked: _fiocchiZuccheratiCE, enable: _fiocchiZuccheratiNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.fiocchiZuccheratiFP, new { data_bind = "checked: _fiocchiZuccheratiFP, enable: _fiocchiZuccheratiNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.legumiNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.legumiNC, new { data_bind = "checked: _legumiNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.legumiCO, new { data_bind = "checked: _legumiCO, enable: _legumiNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.legumiPR, new { data_bind = "checked: _legumiPR, enable: _legumiNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.legumiCE, new { data_bind = "checked: _legumiCE, enable: _legumiNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.legumiFP, new { data_bind = "checked: _legumiFP, enable: _legumiNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.carniRosseNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniRosseNC, new { data_bind = "checked: _carniRosseNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniRosseCO, new { data_bind = "checked: _carniRosseCO, enable: _carniRosseNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniRossePR, new { data_bind = "checked: _carniRossePR, enable: _carniRosseNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniRosseCE, new { data_bind = "checked: _carniRosseCE, enable: _carniRosseNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniRosseFP, new { data_bind = "checked: _carniRosseFP, enable: _carniRosseNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.salumiNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salumiNC, new { data_bind = "checked: _salumiNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salumiCO, new { data_bind = "checked: _salumiCO, enable: _salumiNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salumiPR, new { data_bind = "checked: _salumiPR, enable: _salumiNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salumiCE, new { data_bind = "checked: _salumiCE, enable: _salumiNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salumiFP, new { data_bind = "checked: _salumiFP, enable: _salumiNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.carniBiancheNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniBiancheNC, new { data_bind = "checked: _carniBiancheNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniBiancheCO, new { data_bind = "checked: _carniBiancheCO, enable: _carniBiancheNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniBianchePR, new { data_bind = "checked: _carniBianchePR, enable: _carniBiancheNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniBiancheCE, new { data_bind = "checked: _carniBiancheCE, enable: _carniBiancheNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.carniBiancheFP, new { data_bind = "checked: _carniBiancheFP, enable: _carniBiancheNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pesceNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pesceNC, new { data_bind = "checked: _pesceNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pesceCO, new { data_bind = "checked: _pesceCO, enable: _pesceNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pescePR, new { data_bind = "checked: _pescePR, enable: _pesceNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pesceCE, new { data_bind = "checked: _pesceCE, enable: _pesceNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pesceFP, new { data_bind = "checked: _pesceFP, enable: _pesceNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.formaggiNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.formaggiNC, new { data_bind = "checked: _formaggiNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.formaggiCO, new { data_bind = "checked: _formaggiCO, enable: _formaggiNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.formaggiPR, new { data_bind = "checked: _formaggiPR, enable: _formaggiNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.formaggiCE, new { data_bind = "checked: _formaggiCE, enable: _formaggiNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.formaggiFP, new { data_bind = "checked: _formaggiFP, enable: _formaggiNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.pietanzeNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pietanzeNC, new { data_bind = "checked: _pietanzeNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pietanzeCO, new { data_bind = "checked: _pietanzeCO, enable: _pietanzeNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pietanzePR, new { data_bind = "checked: _pietanzePR, enable: _pietanzeNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pietanzeCE, new { data_bind = "checked: _pietanzeCE, enable: _pietanzeNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.pietanzeFP, new { data_bind = "checked: _pietanzeFP, enable: _pietanzeNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.nociNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.nociNC, new { data_bind = "checked: _nociNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.nociCO, new { data_bind = "checked: _nociCO, enable: _nociNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.nociPR, new { data_bind = "checked: _nociPR, enable: _nociNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.nociCE, new { data_bind = "checked: _nociCE, enable: _nociNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.nociFP, new { data_bind = "checked: _nociFP, enable: _nociNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.snackNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.snackNC, new { data_bind = "checked: _snackNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.snackCO, new { data_bind = "checked: _snackCO, enable: _snackNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.snackPR, new { data_bind = "checked: _snackPR, enable: _snackNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.snackCE, new { data_bind = "checked: _snackCE, enable: _snackNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.snackFP, new { data_bind = "checked: _snackFP, enable: _snackNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.uovaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.uovaNC, new { data_bind = "checked: _uovaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.uovaCO, new { data_bind = "checked: _uovaCO, enable: _uovaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.uovaPR, new { data_bind = "checked: _uovaPR, enable: _uovaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.uovaCE, new { data_bind = "checked: _uovaCE, enable: _uovaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.uovaFP, new { data_bind = "checked: _uovaFP, enable: _uovaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.zuccheroNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.zuccheroNC, new { data_bind = "checked: _zuccheroNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.zuccheroCO, new { data_bind = "checked: _zuccheroCO, enable: _zuccheroNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.zuccheroPR, new { data_bind = "checked: _zuccheroPR, enable: _zuccheroNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.zuccheroCE, new { data_bind = "checked: _zuccheroCE, enable: _zuccheroNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.zuccheroFP, new { data_bind = "checked: _zuccheroFP, enable: _zuccheroNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.saleNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.saleNC, new { data_bind = "checked: _saleNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.saleCO, new { data_bind = "checked: _saleCO, enable: _saleNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.salePR, new { data_bind = "checked: _salePR, enable: _saleNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.saleCE, new { data_bind = "checked: _saleCE, enable: _saleNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.saleFP, new { data_bind = "checked: _saleFP, enable: _saleNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.olioExtravergineNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.olioExtravergineNC, new { data_bind = "checked: _olioExtravergineNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.olioExtravergineCO, new { data_bind = "checked: _olioExtravergineCO, enable: _olioExtravergineNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.olioExtraverginePR, new { data_bind = "checked: _olioExtraverginePR, enable: _olioExtravergineNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.olioExtravergineCE, new { data_bind = "checked: _olioExtravergineCE, enable: _olioExtravergineNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.olioExtravergineFP, new { data_bind = "checked: _olioExtravergineFP, enable: _olioExtravergineNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.burroNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.burroNC, new { data_bind = "checked: _burroNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.burroCO, new { data_bind = "checked: _burroCO, enable: _burroNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.burroPR, new { data_bind = "checked: _burroPR, enable: _burroNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.burroCE, new { data_bind = "checked: _burroCE, enable: _burroNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.burroFP, new { data_bind = "checked: _burroFP, enable: _burroNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.margarinaNC, new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.margarinaNC, new { data_bind = "checked: _margarinaNC" }) Non consumato
+
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.margarinaCO, new { data_bind = "checked: _margarinaCO, enable: _margarinaNC()!=true" }) Colazione
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.margarinaPR, new { data_bind = "checked: _margarinaPR, enable: _margarinaNC()!=true" }) Pranzo
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.margarinaCE, new { data_bind = "checked: _margarinaCE, enable: _margarinaNC()!=true" }) Cena
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.margarinaFP, new { data_bind = "checked: _margarinaFP, enable: _margarinaNC()!=true" }) Fuori pasto
+                </label>
+            </div>
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.altro1, null, new { data_bind = "value: _altro1, valueUpdate: 'input'", @class = "form-control" })
+            </div>
+            <div class="col-md-7">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro1CO, new { data_bind = "checked: _altro1CO, enable: _altro1()!=''" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro1PR, new { data_bind = "checked: _altro1PR, enable: _altro1()!=''" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro1CE, new { data_bind = "checked: _altro1CE, enable: _altro1()!=''" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro1FP, new { data_bind = "checked: _altro1FP, enable: _altro1()!=''" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.altro2, null, new { data_bind = "value: _altro2, valueUpdate: 'input'", @class = "form-control" })
+            </div>
+            <div class="col-md-7">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro2CO, new { data_bind = "checked: _altro2CO, enable: _altro2()!=''" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro2PR, new { data_bind = "checked: _altro2PR, enable: _altro2()!=''" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro2CE, new { data_bind = "checked: _altro2CE, enable: _altro2()!=''" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro2FP, new { data_bind = "checked: _altro2FP, enable: _altro2()!=''" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.altro3, null, new { data_bind = "value: _altro3, valueUpdate: 'input'", @class = "form-control" })
+            </div>
+            <div class="col-md-7">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro3CO, new { data_bind = "checked: _altro3CO, enable: _altro3()!=''" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro3PR, new { data_bind = "checked: _altro3PR, enable: _altro3()!=''" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro3CE, new { data_bind = "checked: _altro3CE, enable: _altro3()!=''" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro3FP, new { data_bind = "checked: _altro3FP, enable: _altro3()!=''" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.altro4, null, new { data_bind = "value: _altro4, valueUpdate: 'input'", @class = "form-control" })
+            </div>
+            <div class="col-md-7">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro4CO, new { data_bind = "checked: _altro4CO, enable: _altro4()!=''" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro4PR, new { data_bind = "checked: _altro4PR, enable: _altro4()!=''" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro4CE, new { data_bind = "checked: _altro4CE, enable: _altro4()!=''" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro4FP, new { data_bind = "checked: _altro4FP, enable: _altro4()!=''" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.altro5, null, new { data_bind = "value: _altro5, valueUpdate: 'input'", @class = "form-control" })
+            </div>
+            <div class="col-md-7">
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro5CO, new { data_bind = "checked: _altro5CO, enable: _altro5()!=''" }) Colazione
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro5PR, new { data_bind = "checked: _altro5PR, enable: _altro5()!=''" }) Pranzo
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro5CE, new { data_bind = "checked: _altro5CE, enable: _altro5()!=''" }) Cena
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.altro5FP, new { data_bind = "checked: _altro5FP, enable: _altro5()!=''" }) Fuori pasto
+                    </label>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            @if (ViewBag.idDrop)
+            {
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-4 note">
+                    <strong>Paziente uscito dallo studio</strong>, modifiche disabilitate!
+                </div>
+            </div>
+            }
+            else
+            {
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Aggiorna" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Aggirona" class="btn btn-default" />
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+}
+
+

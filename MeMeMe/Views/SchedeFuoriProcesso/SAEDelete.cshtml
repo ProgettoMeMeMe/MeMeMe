@@ -1,0 +1,61 @@
+﻿@model MeMeMe.Models.SAE
+
+@{
+    ViewBag.Title = "Cancezione SAE";
+}
+
+<h2>Cancella SAE</h2>
+
+<h3>Sei sicuro di procedere alla cancellazione?</h3>
+<div>
+    <h4>SAE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idSAE)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.idSAE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idPaziente)
+        </dt>
+        <dd>
+            @ViewBag.TrialCode
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gravita)
+        </dt>
+        <dd>
+            @ViewBag.Gravita
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dataSAE)
+        </dt>
+        <dd>
+            @ViewBag.DataSae
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @if (User.IsInRole("audit"))
+            {
+                <input type="submit" value="Elimina" class="btn btn-default" disabled />
+            }
+            else
+            {
+                <input type="submit" value="Elimina" class="btn btn-default" />
+            }
+            <br />
+            <br />
+            @Html.ActionLink("Torna alla lista", "Index")
+        </div>
+    }
+</div>

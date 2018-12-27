@@ -1,0 +1,174 @@
+﻿@model MeMeMe.Models.Antropometria
+
+@{
+    ViewBag.Title = "Antropometria";
+}
+<script type="text/javascript">
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    }
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+    }
+
+    $(document).ready(function () {
+        $(document).find('input').keypress(function (evt) {
+            if (evt.which == 46) {
+                $(this).val($(this).val() + ',');
+                evt.preventDefault();
+            }
+        });
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+<h2>Antropometria  @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro, new { @Value = ViewBag.idStatoRegistro })
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.data, new { @class = "control-label col-md-3" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _data" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.data)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.altezza, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.altezza, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "6" })
+            </div>
+            @Html.ValidationMessageFor(model => model.altezza)
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(model => model.peso, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.peso, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "5" })
+            </div>
+            @Html.ValidationMessageFor(model => model.peso)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.circonferenzaVita, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.circonferenzaVita, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "6" })
+            </div>
+            @Html.ValidationMessageFor(model => model.circonferenzaVita)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.circonferenzaFianchi, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.circonferenzaFianchi, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "6" })
+            </div>
+            @Html.ValidationMessageFor(model => model.circonferenzaFianchi)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.pressioneMax, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.pressioneMax, null, new { @class = "form-control", @style = "width:60px;", @maxlength = "3" })
+            </div>
+            @Html.ValidationMessageFor(model => model.pressioneMax)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.pressioneMin, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.pressioneMin, null, new { @class = "form-control", @style = "width:60px;", @maxlength = "3" })
+            </div>
+            @Html.ValidationMessageFor(model => model.pressioneMin)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.pulsazioni, new { @class = "control-label col-md-3" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.pulsazioni, null, new { @class = "form-control", @style = "width:60px;", @maxlength = "3" })
+            </div>
+            @Html.ValidationMessageFor(model => model.pulsazioni)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.terapiaIpertensione, new { @class = "control-label col-md-3" })
+            <div class="checkbox-inline col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.terapiaIpertensione)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.terapiaIpercolesterolemia, new { @class = "control-label col-md-3" })
+            <div class="checkbox-inline col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.terapiaIpercolesterolemia)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.terapiaIpertrigliceridemia, new { @class = "control-label col-md-3" })
+            <div class="checkbox-inline col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.terapiaIpertrigliceridemia)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cardioaspirina, new { @class = "control-label col-md-3" })
+            <div class="checkbox-inline col-md-3">
+                <label>
+                    @Html.CheckBoxFor(model => model.cardioaspirina)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.note, new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.TextAreaFor(model => model.note, new { @class = "form-control", rows = "5", cols = "200" })
+                @Html.ValidationMessageFor(model => model.note)
+            </div>
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" />
+                    }
+                </div>
+            </div>
+        </div>
+}

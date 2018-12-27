@@ -1,0 +1,253 @@
+﻿@{
+    //maschi under 67
+    int mu67X = Convert.ToInt32(@Html.Display("MaschiUnder67_X").ToString());
+    int mu67Y = Convert.ToInt32(@Html.Display("MaschiUnder67_Y").ToString());
+    int mu67 = mu67X + mu67Y;
+    if (mu67 % 2 == 0)
+    {
+        mu67X = mu67 / 2;
+        mu67Y = mu67 / 2;
+    }
+    else
+    {
+        mu67X = ((mu67 - 1) / 2) + 1;
+        mu67Y = ((mu67 - 1) / 2);
+    }
+    //maschi over 67
+    int mo67X = Convert.ToInt32(@Html.Display("MaschiOver67_X").ToString());
+    int mo67Y = Convert.ToInt32(@Html.Display("MaschiOver67_Y").ToString());
+    int mo67 = mo67X + mo67Y;
+    if (mo67 % 2 == 0)
+    {
+        mo67X = mo67 / 2;
+        mo67Y = mo67 / 2;
+    }
+    else
+    {
+        mo67X = ((mo67 - 1) / 2) + 1;
+        mo67Y = ((mo67 - 1) / 2);
+    }
+
+    //Femmine under 67
+    int fu67X = Convert.ToInt32(@Html.Display("FemmineUnder67_X").ToString());
+    int fu67Y = Convert.ToInt32(@Html.Display("FemmineUnder67_Y").ToString());
+    int fu67 = fu67X + fu67Y;
+    if (fu67 % 2 == 0)
+    {
+        fu67X = fu67 / 2;
+        fu67Y = fu67 / 2;
+    }
+    else
+    {
+        fu67X = ((fu67 - 1) / 2) + 1;
+        fu67Y = ((fu67 - 1) / 2);
+    }
+    //femmine over 67
+    int fo67X = Convert.ToInt32(@Html.Display("FemmineOver67_X").ToString());
+    int fo67Y = Convert.ToInt32(@Html.Display("FemmineOver67_Y").ToString());
+    int fo67 = fo67X + fo67Y;
+    if (fo67 % 2 == 0)
+    {
+        fo67X = fo67 / 2;
+        fo67Y = fo67 / 2;
+    }
+    else
+    {
+        fo67X = ((fo67 - 1) / 2) + 1;
+        fo67Y = ((fo67 - 1) / 2);
+    }
+
+    int totX = mu67X + fu67X + mo67X + fo67X;
+    int totY = mu67Y + fu67Y + mo67Y + fo67Y;
+
+}
+<br />
+@*<div class="alert alert-warning">
+    <strong>IVAN, hai superato la metà!</strong> @Html.Display("IvanObietivo")
+</div>*@
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Monitoraggio</h3>
+        @Html.Partial("_ChartMonitoraggio")
+        <br />
+        <h3>Farmaci magazzino</h3>
+        @Html.Action("_Scorte")
+    </div>
+
+    <div class="col-md-6">
+        <div>
+            <h3>Randomizzazione dieta in studio</h3>
+
+            <table class="table table">
+                <caption></caption>
+                <colgroup />
+                <colgroup span="2" title="title" />
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2" style="text-align:left;width:200px">Tipo paziente</th>
+                        <th scope="col" colspan="2" style="text-align:center" class="randomizzazioneDietaBlu">Blu</th>
+                        <th scope="col" colspan="2" style="text-align:center" class="randomizzazioneDietaGreen">Verdi</th>
+                        <th scope="col" rowspan="2" style="text-align:center; font-style:italic; font-weight:bold">Totale</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:center">Maschi</th>
+                        <th style="text-align:center">Femmine</th>
+                        <th style="text-align:center">Maschi</th>
+                        <th style="text-align:center">Femmine</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td>Totale</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TotBraccio1M")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TotBraccio1F")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TotBraccio2M")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TotBraccio2F")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TotaleGenerale")</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Probanda/o</td>
+                        <td style="text-align:center">@Html.Display("ProbandaBraccio1M")</td>
+                        <td style="text-align:center">@Html.Display("ProbandaBraccio1F")</td>
+                        <td style="text-align:center">@Html.Display("ProbandaBraccio2M")</td>
+                        <td style="text-align:center">@Html.Display("ProbandaBraccio2F")</td>
+                        <td style="text-align:center;font-style:italic; font-weight:bold">@Html.Display("TotaleProbanda")</td>
+                    </tr>
+                    <tr>
+                        <td>Famigliare</td>
+                        <td style="text-align:center">@Html.Display("FamiliareBraccio1M")</td>
+                        <td style="text-align:center">@Html.Display("FamiliareBraccio1F")</td>
+                        <td style="text-align:center">@Html.Display("FamiliareBraccio2M")</td>
+                        <td style="text-align:center">@Html.Display("FamiliareBraccio2F")</td>
+                        <td style="text-align:center;font-style:italic; font-weight:bold">@Html.Display("TotaleFamiliare")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @if (!User.IsInRole("audit"))
+        {
+        <div>
+            <h3>Randomizzazione farmaco in studio</h3>
+            <table class="table table">
+                <caption></caption>
+                <colgroup />
+                <colgroup span="2" title="title" />
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2" style="text-align:left;width:200px">Braccio</th>
+                        <th scope="col" colspan="2" style="text-align:center">fino a 67 anni</th>
+                        <th scope="col" colspan="2" style="text-align:center">oltre 67 anni</th>
+                        <th scope="col" rowspan="2" style="text-align:center; font-style:italic; font-weight:bold">Totale</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:center">Maschi</th>
+                        <th style="text-align:center">Femmine</th>
+                        <th style="text-align:center">Maschi</th>
+                        <th style="text-align:center">Femmine</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td>Totale</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTMUnder67")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTFUnder67")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTMOver67")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTFOver67")</td>
+                        <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOT")</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>X</td>
+                        <td style="text-align:center">@Html.Display("MaschiUnder67_X")</td>
+                        <td style="text-align:center">@Html.Display("FemmineUnder67_X")</td>
+                        <td style="text-align:center">@Html.Display("MaschiOver67_X")</td>
+                        <td style="text-align:center">@Html.Display("FemmineOver67_X")</td>
+                        <td style="text-align:center;font-style:italic; font-weight:bold">@Html.Display("TOTX")</td>
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        <td style="text-align:center">@Html.Display("MaschiUnder67_Y")</td>
+                        <td style="text-align:center">@Html.Display("FemmineUnder67_Y")</td>
+                        <td style="text-align:center">@Html.Display("MaschiOver67_Y")</td>
+                        <td style="text-align:center">@Html.Display("FemmineOver67_Y")</td>
+                        <td style="text-align:center;font-style:italic; font-weight:bold">@Html.Display("TOTY")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        else
+        {
+            //AUDIT
+            <div>
+                <h3>Randomizzazione farmaco in studio</h3>
+                <table class="table table">
+                    <caption></caption>
+                    <colgroup />
+                    <colgroup span="2" title="title" />
+                    <thead>
+                        <tr>
+                            <th scope="col" rowspan="2" style="text-align:left;width:200px">Braccio</th>
+                            <th scope="col" colspan="2" style="text-align:center">fino a 67 anni</th>
+                            <th scope="col" colspan="2" style="text-align:center">oltre 67 anni</th>
+                            <th scope="col" rowspan="2" style="text-align:center; font-style:italic; font-weight:bold">Totale</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center">Maschi</th>
+                            <th style="text-align:center">Femmine</th>
+                            <th style="text-align:center">Maschi</th>
+                            <th style="text-align:center">Femmine</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td>Totale</td>
+                            <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTMUnder67")</td>
+                            <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTFUnder67")</td>
+                            <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTMOver67")</td>
+                            <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOTFOver67")</td>
+                            <td style="text-align:center; font-style:italic; font-weight:bold">@Html.Display("TOT")</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>X</td>
+                            <td style="text-align:center">@mu67X.ToString()</td>
+                            <td style="text-align:center">@fu67X.ToString()</td>
+                            <td style="text-align:center">@mo67X.ToString()</td>
+                            <td style="text-align:center">@fo67X.ToString()</td>
+                            <td style="text-align:center;font-style:italic; font-weight:bold">@totX.ToString()</td>
+                        </tr>
+                        <tr>
+                            <td>Y</td>
+                            <td style="text-align:center">@mu67Y.ToString()</td>
+                            <td style="text-align:center">@fu67Y.ToString()</td>
+                            <td style="text-align:center">@mo67Y.ToString()</td>
+                            <td style="text-align:center">@fo67Y.ToString()</td>
+                            <td style="text-align:center;font-style:italic; font-weight:bold">@totY.ToString()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Avanzamento Assegnazione farmaci</h3>
+        @Html.Partial("_ChartAssegnazioni")
+    </div>
+
+    <div class="col-md-6">
+        <h3>Avanzamento Stati</h3>
+        @Html.Partial("_ChartStati")
+    </div>
+</div>

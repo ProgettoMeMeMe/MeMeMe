@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Emergenza";
+    var classTentativi = "TentativiKO";
+    if (ViewBag.TentativiRimasti > 0)
+    {
+        classTentativi = "TentativiOK";
+    }
+}
+
+<h2>Procedure emergenza ROTTURA CIECO</h2>
+
+<div>
+    <div>
+        <div class="@classTentativi">
+            <h2>TENTATIVI rimasti: @ViewBag.TentativiRimasti</h2>
+        </div>
+        <div class="note">
+            I criteri di selezione devono essere quanto più possibile precisi.<br />
+            Un solo elemento di ricerca alla volta.<br />
+            In caso di OMONIMIA su cognome, evidenziata in ricerca, raffinare ricerca con codice fiscale.<br />
+            <u>I tentativi diponibili per utente la ricerca sono al massimo <strong>5</strong></u>.
+        </div>
+        @{using (Html.BeginForm())
+        {
+            <fieldset style="margin-top:15px;">
+                <legend>ricerca per <u>cognome</u>, <u>codice fiscale</u></legend>
+                <div>
+                    @Html.TextBox("search", null, new { @class = "form-control" }) <br />
+                    @if (ViewBag.TentativiRimasti > 0)
+                    {
+                        <input id="butSubmit" type="submit" value="ricerca" class="btn btn-default" />
+                    }
+                    else
+                    {
+                        <table class="mememetable">
+                            <tr style="background-color:red;font-size:medium;">
+                                <td><strong>Ricerca bloccata per esaurimento tentativi, richiedere ad amministratore di riattivare la funzionalità</strong></td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </fieldset>
+        }
+
+        }
+    </div>
+
+    <div>
+        @{
+            if (ViewBag.SearchResult != null)
+            {
+                if (ViewBag.SearchResult == "ok")
+                {
+                    <hr />
+                    <div>
+                        <table class="mememetable">
+                            <tr>
+                                <td>Paziente</td>
+                                <td>@ViewBag.Paziente</td>
+                            </tr>
+                            <tr>
+                                <td>Indirizzo</td>
+                                <td>@ViewBag.Indirizzo</td>
+                            </tr>
+                            <tr>
+                                <td>Braccio</td>
+                                <td><strong>@ViewBag.Braccio</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Riferimenti</td>
+                                <td>@ViewBag.Riferimenti</td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    if (ViewBag.SearchResult == "ko OMONIMI")
+                    {
+                        <hr />
+                        <div>
+                            <table class="mememetable">
+                                <tr style="background-color:#ff6a00;font-size:medium;">
+                                    <td><strong>Rilevata OMONIMIA, raffinare la ricerca</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    }else{
+                        <hr />
+                        <div>
+                            <table class="mememetable">
+                                <tr style="background-color:red;font-size:medium;">
+                                    <td><strong>nessun paziente trovato con questi riferimenti</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                }
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,143 @@
+﻿@model MeMeMe.Models.AE
+
+@{
+    ViewBag.Title = "Compilazione AE";
+}
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        //default
+        if ($("#dataAE").val() == '01/01/0001 00:00:00') {
+            $("#dataAE").val('');
+        }
+
+        if ($('#trialCode').val() == 0) {
+            $('input[type="submit"]').prop('disabled', true);
+        }
+
+        $('#trialCode').change(function () {
+            var selectedPaziente = $('#trialCode').val();
+            $.getJSON('@Url.Action("InfoPaziente")', { idPaziente: selectedPaziente },
+            function (result) {
+                $("#iniziali").html(result.iniziali);
+                $("#eta").html(result.eta);
+                $("#sesso").html(result.sesso);
+                $("#peso").html(result.peso);
+                $("#altezza").html(result.altezza);
+                $("#dataAssegnazionePeriodoProva").val(result.dataAssegnazionePeriodoProva);
+                $("#idPaziente").val(selectedPaziente);
+                $('input[type="submit"]').prop('disabled', false);
+            });
+        });
+        //Model KO
+        ko.applyBindings(viewModel);
+//<script type="text/javascript">
+//    $(document).ready(function () {
+        //default
+        if ($("#datanascita").val() == '01/01/0001 00:00:00') {
+            $("#datanascita").val('');
+        }
+        var selectedProvincia = $('#provincia').val();
+        if (selectedProvincia != null && selectedProvincia != '') {
+            $.getJSON('@Url.Action("Comuni")', { provincia: selectedProvincia }, function (comuni) {
+                var comuneSelect = $('#comune');
+                comuneSelect.empty();
+                $.each(comuni, function (index, comune) {
+                    comuneSelect.append($('<option/>', {
+                        value: comune.value,
+                        text: comune.text
+                    }));
+                });
+            });
+        }
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+
+    @*});
+</script>*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Evento Avverso</h2>
+        <hr />
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idPaziente, new { @Value = ViewBag.idPaziente })
+
+        <div class="form-group">
+            @Html.Label("Paziente", new { @class = "control-label col-md-1" })
+            @Html.DropDownList("trialCode", null, new { @class = "form-control col-md-2" })
+            <div class="col-xs-2" id="iniziali">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-3" id="eta">
+            </div>
+            <div class="col-xs-3" id="sesso">
+            </div>
+            <div class="col-xs-3" id="peso">
+            </div>
+            <div class="col-xs-3" id="altezza">
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.dataAE, new { @class = "control-label col-md-1" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataAE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dataAE)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("EVENTI AVVERSI", new { @class = "control-label col-md-1" })
+            <div class="col-md-offset-0 col-md-10">
+                <div class="sectionForm">
+                    @Html.Label("Registare data per inserire eventi avversi", new {@style="color:red" })
+                </div>
+            </div>
+        </div>        
+        <div class="form-group">
+            @Html.LabelFor(model => model.note, new { @class = "control-label col-md-1" })
+            <div class="form col-md-10">
+                @Html.TextAreaFor(model => model.note, new { @class = "form-control", rows = "5", cols = "200" })
+            </div>
+            @Html.ValidationMessageFor(model => model.note)
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-12">
+                <input type="submit" value="Registra" id="btnCreate" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Torna a elenco", "Index")
+</div>

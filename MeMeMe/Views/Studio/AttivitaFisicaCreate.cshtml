@@ -1,0 +1,566 @@
+﻿@model MeMeMe.Models.AttivitaFisica
+
+@{
+    ViewBag.Title = "Attivita Fisica";
+}
+
+<script type="text/javascript">
+
+    var viewModel = {
+            _data: ko.observable(),
+            _attivitaVigorose: ko.observable(),
+            _attivitaVigoroseSettimanaDurata: ko.observable(),
+            _attivitaVigoroseSettimanaNrNr: ko.observable(),
+            _attivitaVigoroseTipo: ko.observable(),
+            _attivitaVigoroseGiornoDurata: ko.observable(),
+            _attivitaVigoroseGiornoNrNr: ko.observable(),
+            _camminata: ko.observable(),
+            _camminataSettimanaDurata: ko.observable(),
+            _camminataSettimanaDurataNsNr: ko.observable(),
+            _camminataTipo: ko.observable(),
+            _camminataGiornoDurata: ko.observable(),
+            _camminataGiornoDurataNsNr: ko.observable(),
+            _attivitaModerata: ko.observable(),
+            _attivitaModerataSettimanaDurata: ko.observable(),
+            _attivitaModerata: ko.observable(),
+            _attivitaModerataSettimanaDurataNsNr: ko.observable(),
+            _attivitaModerataTipo: ko.observable(),
+            _attivitaModerataGiornoDurata: ko.observable(),
+            _attivitaModerataGiornoDurataNsNr: ko.observable(),
+            _attivitaSedentariaSettimanaDurata: ko.observable(),
+            _attivitaSedentariaSettimanaDurataNsNr: ko.observable(),
+            _attivitaSedentariaTipo: ko.observable(),
+            _attivitaSedentariaMercolediDurata: ko.observable(),
+            _attivitaSedentariaMercolediDurataNsNr: ko.observable()
+
+    };
+    //attivitaVigorose
+    viewModel._attivitaVigorose.subscribe(function (v) {
+        if (v == "2") {
+            viewModel._attivitaVigoroseSettimanaDurata("");
+            viewModel._attivitaVigoroseSettimanaNrNr(false);
+            viewModel._attivitaVigoroseTipo(false);
+            viewModel._attivitaVigoroseGiornoDurata("");
+            viewModel._attivitaVigoroseGiornoNrNr(false);
+        }
+    });
+    viewModel._attivitaVigoroseSettimanaDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._attivitaVigoroseSettimanaNrNr(false);
+        }
+    });
+    viewModel._attivitaVigoroseGiornoDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._attivitaVigoroseGiornoNrNr(false);
+        }
+    });
+
+    viewModel._camminataSettimanaDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._camminataSettimanaDurataNsNr(false);
+        }
+    });
+    viewModel._camminataGiornoDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._camminataGiornoDurataNsNr(false);
+        }
+    });
+
+    viewModel._attivitaModerataSettimanaDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._attivitaModerataSettimanaDurataNsNr(false);
+        }
+    });
+
+    viewModel._attivitaModerataGiornoDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._attivitaModerataGiornoDurataNsNr(false);
+        }
+    });
+    viewModel._attivitaSedentariaSettimanaDurata.subscribe(function (v) {
+        if (v != "") {
+            viewModel._attivitaSedentariaSettimanaDurataNsNr(false);
+        }
+    });
+    viewModel._attivitaSedentariaMercolediDurata.subscribe(function (v) {
+        //alert(v);
+        if (v != "") {
+            viewModel._attivitaSedentariaMercolediDurataNsNr(false);
+        }
+    });
+
+    viewModel._attivitaVigoroseSettimanaNrNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaVigoroseSettimanaDurata("");
+        }
+    });
+    viewModel._attivitaVigoroseGiornoNrNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaVigoroseGiornoDurata("");
+        }
+    });
+    //camminata
+    viewModel._camminata.subscribe(function (v) {
+        if (v == "2") {
+            viewModel._camminataSettimanaDurata("");
+            viewModel._camminataSettimanaDurataNsNr(false);
+            viewModel._camminataTipo(false);
+            viewModel._camminataGiornoDurata("");
+            viewModel._camminataGiornoDurataNsNr(false);
+        }
+    });
+    viewModel._camminataSettimanaDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._camminataSettimanaDurata("");
+        }
+    });
+    viewModel._camminataGiornoDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._camminataGiornoDurata("");
+        }
+    });
+    //ATTIVITÁ DI MODERATA INTENSITÁ
+    viewModel._attivitaModerata.subscribe(function (v) {
+        if (v == "2") {
+            viewModel._attivitaModerataSettimanaDurata("");
+            viewModel._attivitaModerataSettimanaDurataNsNr(false);
+            viewModel._attivitaModerataTipo(false);
+            viewModel._attivitaModerataGiornoDurata("");
+            viewModel._attivitaModerataGiornoDurataNsNr(false);
+        }
+    });
+    viewModel._attivitaModerataSettimanaDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaModerataSettimanaDurata("");
+        }
+    });
+    viewModel._attivitaModerataGiornoDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaModerataGiornoDurata("");
+        }
+    });
+
+    //ATTIVITÁ  SEDENTARIE e/o LEGGERE
+    viewModel._attivitaSedentariaSettimanaDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaSedentariaSettimanaDurata("");
+            viewModel._attivitaSedentariaTipo(false);
+            viewModel._attivitaSedentariaMercolediDurata("");
+            viewModel._attivitaSedentariaMercolediDurataNsNr(false);
+        }
+    });
+    viewModel._attivitaSedentariaMercolediDurataNsNr.subscribe(function (v) {
+        if (v) {
+            viewModel._attivitaSedentariaMercolediDurata("");
+        }
+    });
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel);
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+
+
+<h2>Attività Fisica  @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro, new { @Value = ViewBag.idStatoRegistro })
+
+    <div class="form-group required">
+        @Html.LabelFor(model => model.data, new { @class = "control-label col-md-5" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _data" } })
+            @Html.ValidationMessageFor(model => model.data)
+        </div>
+    </div>
+
+        <!--attivitaVigorose-->
+        <div class="form-group required">
+            @Html.LabelFor(model => model.attivitaVigorose, new { @class = "control-label col-md-5" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaVigorose, 1, new { data_bind = "checked : _attivitaVigorose", id = "si" })
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaVigorose, 2, new { data_bind = "checked : _attivitaVigorose", id = "no" })
+                        No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.attivitaVigorose)
+                @Html.HiddenFor(model => model.attivitaVigorose, null)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaVigoroseSettimanaDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-1">
+                <div>
+                    @Html.TextBoxFor(model => model.attivitaVigoroseSettimanaDurata, new { data_bind = "value: _attivitaVigoroseSettimanaDurata, enable: _attivitaVigorose()==1", @class = "form-control", @style = "width:50px;", @maxlength = "2", @placeholder = "gg" })
+                    @Html.ValidationMessageFor(model => model.attivitaVigoroseSettimanaDurata)
+                </div>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.attivitaVigoroseSettimanaNrNr, new { data_bind = "checked: _attivitaVigoroseSettimanaNrNr, enable: _attivitaVigorose()==1" }) NsNr
+                    @Html.ValidationMessageFor(model => model.attivitaVigoroseSettimanaNrNr)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaVigoroseTipo, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-4">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaVigoroseTipo, 1, new { data_bind = "checked : _attivitaVigoroseTipo, enable: _attivitaVigorose()==1" })
+                        Costante
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaVigoroseTipo, 2, new { data_bind = " checked : _attivitaVigoroseTipo, enable: _attivitaVigorose()==1" })
+                        Variabile
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.attivitaVigoroseTipo)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaVigoroseGiornoDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-1">
+                <div>
+                    @Html.TextBoxFor(model => model.attivitaVigoroseGiornoDurata, new { data_bind = "value: _attivitaVigoroseGiornoDurata, enable: _attivitaVigorose()==1", @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+                    @Html.ValidationMessageFor(model => model.attivitaVigoroseGiornoDurata)
+                </div>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.attivitaVigoroseGiornoNrNr, new { data_bind = "checked: _attivitaVigoroseGiornoNrNr, enable: _attivitaVigorose()==1" }) NsNr
+                    @Html.ValidationMessageFor(model => model.attivitaVigoroseGiornoNrNr)
+                </label>
+            </div>
+        </div>
+
+
+        <!--camminata-->
+        <div class="form-group required">
+            @Html.LabelFor(model => model.camminata, new { @class = "control-label col-md-5" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.camminata, 1, new { data_bind = "checked : _camminata" })
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.camminata, 2, new { data_bind = " checked : _camminata" })
+                        No
+                    </label>
+                </div>
+                @Html.HiddenFor(model => model.camminata, null)
+                @Html.ValidationMessageFor(model => model.camminata)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.camminataSettimanaDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="radio-inline a">
+                @Html.TextBoxFor(model => model.camminataSettimanaDurata, new { data_bind = "value: _camminataSettimanaDurata, enable: _camminata()==1", @class = "form-control", @style = "width:50px;", @maxlength = "2", @placeholder = "gg" })
+                @Html.ValidationMessageFor(model => model.camminataSettimanaDurata)
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.camminataSettimanaDurataNsNr, new { data_bind = "checked: _camminataSettimanaDurataNsNr, enable: _camminata()==1" }) NsNr
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.camminataTipo, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-4">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.camminataTipo, 1, new { data_bind = "checked : _camminataTipo, enable: _camminata()==1" })
+                        Costante
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.camminataTipo, 2, new { data_bind = " checked : _camminataTipo, enable: _camminata()==1" })
+                        Variabile
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.camminataGiornoDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-1">
+                <div>
+                    @Html.TextBoxFor(model => model.camminataGiornoDurata, new { data_bind = "value: _camminataGiornoDurata, enable: _camminata()==1", @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+                    @Html.ValidationMessageFor(model => model.camminataGiornoDurata)
+                </div>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.camminataGiornoDurataNsNr, new { data_bind = "checked: _camminataGiornoDurataNsNr, enable: _camminata()==1" }) NsNr
+                </label>
+            </div>
+        </div>
+
+        <!--attivitaModerata-->
+        <div class="form-group required">
+            @Html.LabelFor(model => model.attivitaModerata, new { @class = "control-label col-md-5" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaModerata, 1, new { data_bind = "checked : _attivitaModerata" })
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaModerata, 2, new { data_bind = " checked : _attivitaModerata" })
+                        No
+                    </label>
+                </div>
+                @Html.HiddenFor(model => model.attivitaModerata, null)
+                @Html.ValidationMessageFor(model => model.attivitaModerata)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaModerataSettimanaDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="radio-inline a">
+                @Html.TextBoxFor(model => model.attivitaModerataSettimanaDurata, new { data_bind = "value: _attivitaModerataSettimanaDurata, enable: _attivitaModerata()==1", @class = "form-control", @style = "width:50px;", @maxlength = "2", @placeholder = "gg" })
+                @Html.ValidationMessageFor(model => model.attivitaModerataSettimanaDurata)
+            </div>
+
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.attivitaModerataSettimanaDurataNsNr, new { data_bind = "checked: _attivitaModerataSettimanaDurataNsNr, enable: _attivitaModerata()==1" }) NsNr
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaModerataTipo, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-4">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaModerataTipo, 1, new { data_bind = "checked : _attivitaModerataTipo, enable: _attivitaModerata()==1" })
+                        Costante
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaModerataTipo, 2, new { data_bind = " checked : _attivitaModerataTipo, enable: _attivitaModerata()==1" })
+                        Variabile
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaModerataGiornoDurata, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-1">
+                @Html.TextBoxFor(model => model.attivitaModerataGiornoDurata, new { data_bind = "value: _attivitaModerataGiornoDurata, enable: _attivitaModerata()==1", @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+                @Html.ValidationMessageFor(model => model.attivitaModerataGiornoDurata)
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.attivitaModerataGiornoDurataNsNr, new { data_bind = "checked: _attivitaModerataGiornoDurataNsNr, enable: _attivitaModerata()==1" }) NsNr
+                </label>
+            </div>
+        </div>
+
+        <!--attività sedentarie-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.attivitaSedentariaSettimanaDurata, new { @class = "control-label col-md-5" })
+            <div class="form col-md-4">
+                <div class="radio-inline a">
+                    @Html.TextBoxFor(model => model.attivitaSedentariaSettimanaDurata, new { data_bind = "value: _attivitaSedentariaSettimanaDurata", @class = "form-control", @style = "width:50px;", @maxlength = "2", @placeholder = "gg" })
+                    @Html.ValidationMessageFor(model => model.attivitaModerataSettimanaDurata)
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        @Html.CheckBoxFor(model => model.attivitaSedentariaSettimanaDurataNsNr, new { data_bind = "checked: _attivitaSedentariaSettimanaDurataNsNr" }) NsNr
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.LabelFor(model => model.attivitaSedentariaTipo, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form col-md-4">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaSedentariaTipo, 1, new { data_bind = "checked : _attivitaSedentariaTipo" })
+                        Costante
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.attivitaSedentariaTipo, 2, new { data_bind = " checked : _attivitaSedentariaTipo" })
+                        Variabile
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form col-md-offset-5 col-md-2">
+                <div>
+                    @Html.Label("durata tempo")
+                </div>
+            </div>
+            <div class="form col-md-1">
+                @Html.TextBoxFor(model => model.attivitaSedentariaMercolediDurata, new { data_bind = "value: _attivitaSedentariaMercolediDurata, enable: _attivitaSedentariaTipo()==1", @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+                @Html.ValidationMessageFor(model => model.attivitaSedentariaMercolediDurata)
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    @Html.CheckBoxFor(model => model.attivitaSedentariaMercolediDurataNsNr, new { data_bind = "checked: _attivitaSedentariaMercolediDurataNsNr, enable: _attivitaSedentariaTipo()==1" }) NsNr
+                </label>
+            </div>
+        </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.sonnoLetto, new { @class = "control-label col-md-5" })
+        <div class="col-md-7">
+            @Html.TextBoxFor(model => model.sonnoLetto, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+            @Html.ValidationMessageFor(model => model.sonnoLetto)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.sonnoAddormentamento, new { @class = "control-label col-md-5" })
+        <div class="col-md-7">
+            @Html.TextBoxFor(model => model.sonnoAddormentamento, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3", @placeholder = "mm" } )
+            @Html.ValidationMessageFor(model => model.sonnoAddormentamento)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.alzata, new { @class = "control-label col-md-5" })
+        <div class="col-md-7">
+            @Html.TextBoxFor(model => model.alzata, null, new { @class = "form-control", @style = "width:70px;", @maxlength = "5", @placeholder = "hh:mm" })
+            @Html.ValidationMessageFor(model => model.alzata)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.durataSonno, new { @class = "control-label col-md-5" })
+        <div class="col-md-7">
+            @Html.TextBoxFor(model => model.durataSonno, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "2", @placeholder = "hh" })
+            @Html.ValidationMessageFor(model => model.durataSonno)
+        </div>
+    </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.qualitaSonno, new { @class = "control-label col-md-5" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.qualitaSonno, 1 )
+                        Molto buona
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.qualitaSonno, 2 )
+                        Abbastanza buona
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.qualitaSonno, 3 )
+                        Abbastanza cattiva
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.qualitaSonno, 4 )
+                        Molto cattiva
+                    </label>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(model => model.qualitaSonno)
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-9">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" />
+                    }
+                </div>
+            </div>
+        </div>
+}

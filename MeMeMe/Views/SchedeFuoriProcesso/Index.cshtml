@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "SAE";
+}
+
+<h2>Schede fuori processo</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Elenco SAE</h3>
+        @Html.Action("_SAE", "SchedeFuoriProcesso")
+        <hr />
+        @{using (Html.BeginForm("SAECreate", "SchedeFuoriProcesso"))
+          {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Aggiungi SAE", "SAECreate", null, new { @id = "SAECreate", @class = "btn btn-default" })
+                    </div>
+                </div>
+            </fieldset>
+            }
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h3>Elenco AE</h3>
+        @Html.Action("_AE", "SchedeFuoriProcesso")
+        <hr />
+        @{using (Html.BeginForm("SAECreate", "SchedeFuoriProcesso"))
+            {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Aggiungi evento", "AECreate", null, new { @id = "AECreate", @class = "btn btn-default" })
+                    </div>
+                </div>
+            </fieldset>
+            }
+        }
+    </div>
+</div>

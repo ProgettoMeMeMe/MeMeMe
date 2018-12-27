@@ -1,0 +1,47 @@
+﻿@model MeMeMe.Models.AE
+
+@{
+    ViewBag.Title = "Cancezione AE";
+}
+
+<h2>Cancella AE</h2>
+
+<h3>Sei sicuro di procedere alla cancellazione?</h3>
+<div>
+    <h4>AE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idAE)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.idAE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idPaziente)
+        </dt>
+        <dd>
+            @ViewBag.TrialCode
+        </dd>
+        
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @if (User.IsInRole("audit"))
+            {
+                <input type="submit" value="Elimina" class="btn btn-default" disabled />
+            }
+            else
+            {
+                <input type="submit" value="Elimina" class="btn btn-default" />
+            }
+            <br />
+            <br />
+            @Html.ActionLink("Torna alla lista", "Index")
+        </div>
+    }
+</div>

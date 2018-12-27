@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (HttpContext.Current.User.Identity.IsAuthenticated){
+    @Html.Partial("_Logged")
+}else{
+    @Html.Partial("_NotLogged")
+}

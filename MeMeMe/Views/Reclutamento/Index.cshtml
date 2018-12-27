@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Reclutamento";
+}
+
+<h2>Pazienti</h2>
+@{using (Html.BeginForm())
+    {
+    <fieldset>
+        @if (!User.IsInRole("audit"))
+        {
+            <legend>ricerca per cognome, nome, codice fiscale, codice paziente</legend>
+        }
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.TextBox("search", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                <input id="butSubmit" type="submit" value="Filtra" class="btn btn-default" />
+            </div>
+            <div class="col-md-4" style="text-align: right">
+                <label class="radio-inline">
+                    <input type="radio" name="tipoP" @(ViewBag.tipoP == "false" ? "checked='checked'" : "") value="false">in studio
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="tipoP" @(ViewBag.tipoP == "true" ? "checked='checked'" : "") value="true">tutti i pazienti
+                </label>
+            </div>
+            <div class="col-md-2" style="text-align: right">
+                <label>CASI: <span style="color:red;">@Html.Display("casi")</span></label>
+            </div>
+        </div>
+    </fieldset>
+    }    
+}
+<hr />
+@{
+    if (Model.Count > 0)
+    {
+        if (User.IsInRole("audit")) {
+            var grid = new WebGrid(Model, canPage: false, rowsPerPage: 15);
+            @grid.GetHtml(tableStyle: "grid",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns:
+                        grid.Columns(
+                        grid.Column(header: "dieta", format: (item) =>
+                        {
+
+                            if (item.randomizzazioneDieta == 1)
+                            {
+                                return new HtmlString("<img src='/Images/GruppoBlu.png'/>");
+                            }
+                            else if (item.randomizzazioneDieta == 2)
+                            {
+                                return new HtmlString("<img src='/Images/GruppoVerde.png'/>");
+                            }
+                            else
+                            {
+
+                                return new HtmlString("X");
+                            }
+
+                        }, style: "columnDieta"),
+                        grid.Column(header: "id MeMeMe", format: (item) =>
+                        {
+                            return new HtmlString(Html.ActionLink((string)item.idMeMeMe, "../Studio/Paziente", new { idPaziente = item.idPaziente }).ToString());
+                        }, style: "columnIdMeMeMe"),
+                        grid.Column("tipoPaziente", "tipo arruolamento", null, style: "columnTipoArruolamento", canSort: false)
+            ));
+        }
+        else
+        {
+            var grid = new WebGrid(Model, canPage: false, rowsPerPage: 15);
+            //grid.Pager(WebGridPagerModes.NextPrevious);
+            @grid.GetHtml(tableStyle: "grid",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns:
+                        grid.Columns(
+                        grid.Column(header: "dieta", format: (item) =>
+                        {
+
+                            if (item.randomizzazioneDieta == 1)
+                            {
+                                return new HtmlString("<img src='/Images/GruppoBlu.png'/>");
+                            }
+                            else if (item.randomizzazioneDieta == 2)
+                            {
+                                return new HtmlString("<img src='/Images/GruppoVerde.png'/>");
+                            }
+                            else
+                            {
+
+                                return new HtmlString("X");
+                            }
+
+                        }, style: "columnDieta"),
+                        grid.Column("idMeMeMe", "id MeMeMe", null, style: "columnIdMeMeMe", canSort: false),
+                        grid.Column(header: "paziente", format: (item) =>
+                        {
+                            return new HtmlString(Html.ActionLink((string)item.paziente, "../Studio/Paziente", new { idPaziente = item.idPaziente }).ToString());
+                        }, style: "columnPaziente"),
+                        grid.Column("cFiscale", "codice fiscale", null, style: "columnCfiscale", canSort: false),
+                        grid.Column("tipoPaziente", "tipo arruolamento", null, style: "columnTipoArruolamento", canSort: false),
+                        grid.Column(header: "azioni", format: (item) =>
+                        {
+                            return new HtmlString(
+                                   Html.ActionLink("modifica", "AnagraficaEdit", new { id = item.idPaziente }).ToString() + " | " +
+                                   Html.ActionLink("cancella", "AnagraficaDelete", new { id = item.idPaziente }).ToString()
+                            );
+                        }, style: "columnAzioni")
+
+            ));
+
+        }
+    }
+    else
+    {
+        @Html.Label("nessun paziente trovato")
+    }
+}
+<hr />
+<p>
+    @if (User.IsInRole("audit"))
+    {
+        @Html.ActionLink("Inserisci anagrafica", "../Reclutamento/AnagraficaCreate", "Anagrafica", null, new { @class = "btn btn-default disabled" } )
+    }
+    else
+    {
+        @Html.ActionLink("Inserisci anagrafica", "../Reclutamento/AnagraficaCreate", "Anagrafica", null, new { @class = "btn btn-default" })
+    }
+</p>

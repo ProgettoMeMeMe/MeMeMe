@@ -1,0 +1,122 @@
+﻿@model MeMeMe.Models.TrattamentiDettaglio
+@{
+    ViewBag.Title = "Trattamento";
+}
+
+<script type="text/javascript">
+    var viewModel = {
+        _tipoTrattamento: ko.observable(@Model.tipoTrattamento),
+        _tipoTrattamentoAltro: ko.observable(@Model.tipoTrattamentoAltro)
+    };
+
+    viewModel._tipoTrattamento.subscribe(function (v) {
+         if (v != 14) {
+            viewModel._tipoTrattamentoAltro("");
+        }
+    });
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel);
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+</script>
+
+<h2>trattamento @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro)
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.tipoTrattamento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownList("tipoTrattamento", null, new { data_bind = "value: _tipoTrattamento", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipoTrattamento)
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.tipoTrattamentoAltro, null, new { data_bind = "value: _tipoTrattamentoAltro, enable: _tipoTrattamento()==14", @class = "form-control", @style = "width:500px;", @maxlength = "255" })
+                @Html.ValidationMessageFor(model => model.tipoTrattamentoAltro)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.trattamento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.trattamento, null, new { @class = "form-control", @style = "width:500px;", @maxlength = "255" })
+                @Html.ValidationMessageFor(model => model.trattamento)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.doseGiornaliera, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.doseGiornaliera, null, new { @class = "form-control", @style = "width:200px;", @maxlength = "50" })
+                @Html.ValidationMessageFor(model => model.doseGiornaliera)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.motivo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.motivo, new { @class = "form-control", @style = "width:500px;", @maxlength = "255" })
+                @Html.ValidationMessageFor(model => model.motivo)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.durata, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.durata, null, new { @class = "form-control", @style = "width:500px;", @maxlength = "255" })
+                @Html.ValidationMessageFor(model => model.durata)
+            </div>
+        </div>
+
+
+        @if (ViewBag.idDrop)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4 note">
+                    <strong>Paziente uscito dallo studio</strong>, modifiche disabilitate!
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Aggiorna" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Aggiorna" class="btn btn-default" />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+

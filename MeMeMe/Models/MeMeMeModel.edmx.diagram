@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7af95c2a14844265bc87dc14e26775fd" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="MeMeMeModel.Antropometria" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.AssegnazioniElenco" Width="2.25" PointX="2.25" PointY="5.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.AssegnazioniRegistro" Width="2" PointX="5.25" PointY="10.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.AttivitaFisica" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.Comuni" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.DiarioDieta24" Width="1.5" PointX="7.5" PointY="12.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.EmergenzeLog" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.KitFlaconiAssegnazione" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.KitRandomizzazione" Width="1.5" PointX="3" PointY="10.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUIParentela" Width="1.5" PointX="0.75" PointY="7" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUIstruzione" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUProfessione" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUStatoCivile" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUTipoTrattamento" Width="1.5" PointX="7.5" PointY="16.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.Prelievo" Width="1.5" PointX="7.5" PointY="5" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.StatiElenco" Width="1.5" PointX="3" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.Trattamenti" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.ValutazioneMetformina" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_AssegnzioniRegistro_AssegnazioniElenco" ManuallyRouted="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_KitFlaconiAssegnazione_AssegnazioniElenco" ManuallyRouted="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_KitFlaconiAssegnazione_KitRandomizzazioneMiPharm" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.AssegnazioneFarmaco" Width="1.5" PointX="8" PointY="10.75" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_AssegnazioneFarmaco_AssegnazioniRegistro" />
+        <EntityTypeShape EntityType="MeMeMeModel.SAE" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.AE" Width="1.5" PointX="5.25" PointY="20.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUAE_Grado" Width="1.5" PointX="5.25" PointY="24" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUAE_Outcome" Width="1.5" PointX="5.25" PointY="22.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUAE_TipoEvento" Width="1.5" PointX="5.25" PointY="17.625" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_\ttaglio_LUAE_Grado" />
+        <EntityTypeShape EntityType="MeMeMeModel.AEDettaglio" Width="1.5" PointX="7.5" PointY="20.875" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_AEDettaglio_AE" />
+        <AssociationConnector Association="MeMeMeModel.FK_AEDettaglio_LUAE_Grado" />
+        <AssociationConnector Association="MeMeMeModel.FK_AEDettaglio_LUAE_Outcome" />
+        <AssociationConnector Association="MeMeMeModel.FK_AEDettaglio_LUAE_TipoEvento" />
+        <EntityTypeShape EntityType="MeMeMeModel.StatiRegistro" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_Antropometria_StatiRegistro" />
+        <AssociationConnector Association="MeMeMeModel.FK_AttivitaFisica_StatiRegistro" />
+        <AssociationConnector Association="MeMeMeModel.FK_DiarioDieta24_StatiRegistro" />
+        <AssociationConnector Association="MeMeMeModel.FK_Prelievo_StatiRegistro" />
+        <AssociationConnector Association="MeMeMeModel.FK_StatiRegistro_StatiElenco" />
+        <AssociationConnector Association="MeMeMeModel.FK_Trattamenti_StatiRegistro" />
+        <AssociationConnector Association="MeMeMeModel.FK_ValuazioneMeformina_StatiRegistro" />
+        <EntityTypeShape EntityType="MeMeMeModel.StileDiVita" Width="1.5" PointX="7.5" PointY="13.75" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_StileDiVita_StatiRegistro" />
+        <EntityTypeShape EntityType="MeMeMeModel.TrattamentiDettaglio" Width="1.5" PointX="9.75" PointY="8.5" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_TrattamentiDettaglio_LUTipoTrattamento" />
+        <AssociationConnector Association="MeMeMeModel.FK_TrattamentiDettaglio_Trattamenti" />
+        <EntityTypeShape EntityType="MeMeMeModel.LUDropMotivazioni" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="MeMeMeModel.Drop" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_Drop_LUDropMotivazioni" />
+        <AssociationConnector Association="MeMeMeModel.FK_Drop_StatiRegistro" />
+        <EntityTypeShape EntityType="MeMeMeModel.Anagrafica" Width="1.5" PointX="3" PointY="8.75" IsExpanded="false" />
+        <AssociationConnector Association="MeMeMeModel.FK_AE_Anagrafica" />
+        <AssociationConnector Association="MeMeMeModel.FK_Anagrafica_Comuni" />
+        <AssociationConnector Association="MeMeMeModel.FK_Anagrafica_LUIParentela" />
+        <AssociationConnector Association="MeMeMeModel.FK_Anagrafica_LUIstruzione" />
+        <AssociationConnector Association="MeMeMeModel.FK_Anagrafica_LUProfessione" />
+        <AssociationConnector Association="MeMeMeModel.FK_Anagrafica_LUStatoCivile" />
+        <AssociationConnector Association="MeMeMeModel.FK_AssegnazioniRegistro_Anagrafica" />
+        <AssociationConnector Association="MeMeMeModel.FK_KitFlaconiAssegnazione_Anagrafica" />
+        <AssociationConnector Association="MeMeMeModel.FK_SAE_Anagrafica" />
+        <AssociationConnector Association="MeMeMeModel.FK_StatiRegistro_Anagrafica" />
+        <EntityTypeShape EntityType="MeMeMeModel.MEDAS" Width="1.5" PointX="7.5" PointY="22.625" />
+        <AssociationConnector Association="MeMeMeModel.FK_Medas_StatiRegistro" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

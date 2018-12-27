@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MeMeMe.Models.StatiListato>
+@{ Layout = null; }
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.registrazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.compilazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descrizioneFase)
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.registrazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.compilazione)
+            </td>
+            <td>
+                @Html.ActionLink(item.descrizioneFase, item.descrizioneForm + "Edit", new { id = item.idStatoRegistro })
+            </td>
+        </tr>
+    }
+
+</table>

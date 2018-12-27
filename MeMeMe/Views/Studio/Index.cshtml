@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "Schede";
+}
+
+<h2>Inserimento dati</h2>
+@{using (Html.BeginForm("Index", "Studio"))
+    {
+        <fieldset>
+            @if (!User.IsInRole("audit"))
+            {
+                <legend>ricerca per cognome, nome, codice fiscale, codice paziente</legend>
+            }
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.TextBox("search", null, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.DropDownList("ElencoStati", ViewBag.stato as SelectList
+                    , null
+                    ,new { @class = "form-control" })
+                </div>
+                <div class="col-md-1">
+                    <input id="butSubmit" type="submit" value="Filtra" class="btn btn-default" />
+                </div>
+
+                <div class="col-md-3" style="text-align: right">
+                    <label class="radio-inline">
+                        <input type="radio" name="tipoP" @(ViewBag.tipoP == "false" ? "checked='checked'" : "") value="false">in studio
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="tipoP" @(ViewBag.tipoP == "true" ? "checked='checked'" : "") value="true">tutti i pazienti
+                    </label>
+                </div>
+
+                <div class="col-md-2" style="text-align: right">
+                    <label>CASI: <span style="color:red;">@Html.Display("casi")</span></label>
+                </div>
+
+            </div>
+
+        </fieldset>
+    }
+}
+<hr />
+@{
+    if (Model.Count > 0)
+    {
+        if (User.IsInRole("audit")) {
+            var grid = new WebGrid(Model, canPage: false, canSort: true, rowsPerPage: 15);
+            @grid.GetHtml(tableStyle: "grid",
+                     headerStyle: "head",
+                     alternatingRowStyle: "alt",
+                     columns:
+                     grid.Columns(
+                     grid.Column(header: "dieta", format: (item) =>
+                     {
+                         if (item.randomizzazioneDieta == 1)
+                         {
+                             return new HtmlString("<img src='/Images/GruppoBlu.png'/>");
+                         }
+                         else if (item.randomizzazioneDieta == 2)
+                         {
+                             return new HtmlString("<img src='/Images/GruppoVerde.png'/>");
+                         }
+                         else
+                         {
+                             return new HtmlString("X");
+                         }
+                     }, style: "columnDieta"),
+                     grid.Column(header: "id MeMeMe", format: (item) =>
+                     {
+                         return new HtmlString(Html.ActionLink((string)item.idMeMeMe, "../Studio/Paziente", new { idPaziente = item.idPaziente }).ToString());
+                     }, style: "columnIdMeMeMe"),
+                    //grid.Column("eventiAvversi", "SAE/AE", null, style: "columnEventi", canSort: false)
+                    grid.Column("SAE", "SAE", null, style: "columnEventi", canSort: false),
+                    grid.Column("AE", "AE", null, style: "columnEventi", canSort: false)
+                     /*,*/
+                     //grid.Column("statoFase", "fase", null, style: "columnFase", canSort: false),
+                     //grid.Column(header: "avanzamento", format: (item) =>
+                     //{
+                     //    if (item.statoPaziente == "CHIUSURA Studio")
+                     //    {
+                     //        return new HtmlString((string)item.motivazione);
+                     //    }
+                     //    else
+                     //    {
+                     //        return new HtmlString(Html.ActionLink((string)item.statoPaziente, "../Studio/" + (string)item.descrizioneForm + "Create", new { idPaziente = item.idPaziente }).ToString());
+                     //    }
+                     //}, style: "columnPaziente")
+            ));
+        }
+        else
+        {
+            var grid = new WebGrid(Model, canPage: false, canSort: true, rowsPerPage: 15);
+            @grid.GetHtml(tableStyle: "grid",
+                headerStyle: "head",
+                alternatingRowStyle: "alt",
+                columns:
+                grid.Columns(
+                grid.Column(header: "dieta", format: (item) =>
+                {
+                    if (item.randomizzazioneDieta == 1)
+                    {
+                        return new HtmlString("<img src='/Images/GruppoBlu.png'/>");
+                    }
+                    else if (item.randomizzazioneDieta == 2)
+                    {
+                        return new HtmlString("<img src='/Images/GruppoVerde.png'/>");
+                    }
+                    else
+                    {
+                        return new HtmlString("X");
+                    }
+                }, style: "columnDieta"),
+                grid.Column(header: "id MeMeMe", format: (item) =>
+                {
+                    if (item.fromTevere == 0)
+                    {
+                        return new HtmlString((string)item.idMeMeMe);
+                    }
+                    else
+                    {
+                        return new HtmlString("<span style='color: orange'>" + (string)item.idMeMeMe + "</span>");
+                    }
+                }, style: "columnIdMeMeMe"),
+                grid.Column(header: "paziente", format: (item) =>
+                {
+                    return new HtmlString(Html.ActionLink((string)item.paziente, "../Studio/Paziente", new { idPaziente = item.idPaziente }).ToString());
+                }, style: "columnPaziente"),
+                grid.Column("cFiscale", "codice fiscale", null, style: "columnCfiscale", canSort: false),
+                grid.Column("flaconiRicevuti", "flaconi", null, style: "columnFlaconi", canSort: false),
+                grid.Column("SAE", "SAE", null, style: "columnEventi", canSort: false),
+                grid.Column("AE", "AE", null, style: "columnEventi", canSort: false),
+                grid.Column("statoFase", "fase", null, style: "columnFase", canSort: false),
+                grid.Column(header: "avanzamento", format: (item) =>
+                {
+                    if (item.statoPaziente == "DROP" || item.statoPaziente == "CHIUSURA Studio")
+                    {
+                        return new HtmlString((string)item.motivazione);
+                    }
+                    else
+                    {
+                        return new HtmlString(Html.ActionLink((string)item.statoPaziente, "../Studio/" + (string)item.descrizioneForm + "Create", new { idPaziente = item.idPaziente }).ToString());
+                    }
+                }, style: "columnPaziente")
+            ));
+        }
+    }
+    else
+    {
+        @Html.Label("nessun paziente trovato")
+    }
+}

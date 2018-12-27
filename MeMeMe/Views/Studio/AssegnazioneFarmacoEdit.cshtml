@@ -1,0 +1,206 @@
+﻿@model MeMeMe.Models.AssegnazioneFarmaco
+
+@{
+    ViewBag.Title = "Assegnazione Farmaco";
+    //int nFlaconiDosaggioPieno = ViewBag.FlaconiDosaggioPieno;
+    //int nFlaconiMezzoDosaggio = ViewBag.FlaconiMezzoDosaggio;
+    //DateTime prossimoRitiro = ViewBag.ProssimoRitiro;
+    //int idP = ViewBag.idPaziente;
+}
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#flaconiAssegnati").val(@nFlaconiDosaggioPieno);
+        $('#rangeInput').hide();
+        $('#dataConsegna').datepicker().change(function () {
+            //if ($('#dataConsegna').val() != '') {
+            if (ValidateDate($('#dataConsegna').val())) {
+                //$('#rangeInput').toggle(); DISATTIVATO NASCOSTO
+                $('#rangeInput').hide();
+                updateTextInput($('#flaconiAssegnati').val());
+            } else {
+                $('#rangeInput').hide();
+                $("#scadenze").html("");
+            }
+        });
+        $('#alertAssegnazioneIncompleta').hide();
+    });
+
+    function ValidateDate(dtValue) {
+        var dtRegex = new RegExp(/\b\d{1,2}[\/-]\d{1,2}[\/-]\d{4}\b/);
+        return dtRegex.test(dtValue);
+    }
+
+    function dosaggio(v) {
+
+        $("#dosaggiStandard").val(v);
+        $("#flaconiAssegnati").val(v);
+        $("#rangeInput").attr({ 'max': v});
+        $("#rangeInput").val(v);
+        if ($('#dataConsegna').val() != '') {
+            updateTextInput(v);
+        }
+    }
+
+    function updateTextInput(v) {
+        $('#alertAssegnazioneIncompleta').hide();
+        var flaconiAssegnati = $('#dosaggiStandard').val();
+        var prossmimaConsegna = $('#prossimoRitiro').val();
+        var dataConsegna = $('#dataConsegna').val();
+        var dosaggioPieno = $('input[name=dosaggioPieno]:checked').val();
+        var idP = $('#idPaziente').val();
+
+        $.getJSON('@Url.Action("DateFlaconi")', { idPaziente: idP, nFlaconi: flaconiAssegnati, pc: prossmimaConsegna, dc: dataConsegna, dp: dosaggioPieno },
+        function (scadenze) {
+            $("#scadenze").html(scadenze);
+            $("#flaconiAssegnati").val(scadenze.split("kit").length - 1);
+            if (scadenze.split("kit").length - 1 < v) {
+                //alert(scadenze.split("kit").length - 1);
+                //alert("Attenzione!!!\n assegnazione inferiore al protocollo!");
+                $('#alertAssegnazioneIncompleta').show();
+
+
+             }
+        });
+    }
+</script>*@
+
+<h2>@ViewBag.Fase @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idAssegnazioneRegistro, new { @Value = ViewBag.idAssegnazioneRegistro })
+
+        @*<input type="hidden" id="prossimoRitiro" value="@prossimoRitiro">*@
+        @*<input type="hidden" id="idPaziente" value="@idP">*@
+        @*<input type="hidden" id="dosaggiStandard" value="@nFlaconiDosaggioPieno">*@
+
+        <div class="sezione" style="padding:20px; background-color:#808080; color:white; font-weight:bold">
+            @ViewBag.Posologia
+        </div>
+
+        <hr />
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.dosaggioPieno, new { @class = "control-label col-md-4" })
+            <div class="form col-md-7">
+                @*<div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @{
+                            if ((bool)ViewBag.ConsenteMezzoDosaggio)
+                            {
+                                @Html.RadioButtonFor(model => model.dosaggioPieno, 0, new { onclick = "dosaggio(" + nFlaconiDosaggioPieno + ");" })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.dosaggioPieno, 1, new { @checked = true, @Disabled = "disabled", onclick = "dosaggio(" + nFlaconiDosaggioPieno + ");" })
+                            }
+                        }
+                        @Html.RadioButtonFor(model => model.dosaggioPieno)
+                        Dosaggio pieno
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @{
+                            if ((bool)ViewBag.ConsenteMezzoDosaggio)
+                            {
+                                @Html.RadioButtonFor(model => model.dosaggioPieno, 0, new { onclick = "dosaggio(" + nFlaconiMezzoDosaggio + ");" })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.dosaggioPieno, 1, new { @Disabled = "disabled", onclick = "dosaggio(" + nFlaconiMezzoDosaggio + ");" })
+                            }
+                        }
+                        Mezzo dosaggio
+                    </label>
+                </div>*@
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.dosaggioPieno, 0)
+                        Costante
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.dosaggioPieno, 1)
+                        Variabile
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.dosaggioPieno)
+                @Html.HiddenFor(model => model.dosaggioPieno, null)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.dataConsegna, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataConsegna, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.dataConsegna)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.flaconiAssegnati, new { @class = "control-label col-md-4" })
+            <div class="col-md-1">
+                @Html.TextBoxFor(model => model.flaconiAssegnati, null, new {@readonly= "readonly", @class = "form-control", @maxlength = "1" })
+                @*@if ((bool)ViewBag.ConsenteMezzoDosaggio)
+                {
+                    <input type="range" id="rangeInput" min="1" max="6" step="1" value="6" onchange="updateTextInput(this.value);">
+                }*@
+            </div>
+            <div class="col-md-7" id="scadenze">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-4">
+            </div>
+            <div class="alert alert-danger col-md-7" id="alertAssegnazioneIncompleta">
+                <strong>Attenzione!</strong> i flaconi che verranno assegnati sono inferiori a quelli previsti dal protocollo.
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.effettiCollaterali, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                <label>
+                    @Html.CheckBoxFor(model => model.effettiCollaterali)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.pilloleAssunte, new { @class = "control-label col-md-4" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.pilloleAssunte, null, new { @class = "form-control", @style = "width:90px;", @maxlength = "3" })
+            </div>
+            @Html.ValidationMessageFor(model => model.pilloleAssunte)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.osservazioni, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.osservazioni, new { @class = "form-control", rows = "5", cols = "200" })
+            </div>
+            @Html.ValidationMessageFor(model => model.osservazioni)
+        </div>
+
+
+        @*<div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Registra" class="btn btn-default" />
+            </div>
+        </div>*@
+
+
+    </div>
+}

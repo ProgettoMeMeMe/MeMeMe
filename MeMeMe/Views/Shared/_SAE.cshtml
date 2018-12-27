@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MeMeMe.Models.SAEListato>
+@{ Layout = null; }
+
+
+@if (Model.Count() > 0) { 
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.trialCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataSAE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gravita)
+            </th>
+            <th>
+                @Html.DisplayName("")
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.trialCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.dataSAE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gravita)
+                </td>
+                <td>
+                    @Html.ActionLink("modifica", "SAEEdit", new { id = item.idSAE })
+                    |
+                    @Html.ActionLink("cancella", "SAEDelete", new { id = item.idSAE })
+                    |
+                    @Html.ActionLink("stampa", "SAEPrint", new { id = item.idSAE }@*, new { onclick = "javascript:alert('da completare'); return false;" }*@)
+                </td>
+            </tr>
+        }
+    </table>
+}

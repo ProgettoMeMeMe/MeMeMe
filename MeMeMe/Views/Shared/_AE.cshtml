@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MeMeMe.Models.AEListato>
+@{ Layout = null; }
+
+@if (Model.Count() > 0) { 
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.trialCode)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.dataAE)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.nEventi)
+            </th>
+
+            <th>
+                @Html.DisplayName("")
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.trialCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.dataAE)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.nEventi)
+                </td>
+
+                <td>
+                    @Html.ActionLink("modifica", "AEEdit", new { id = item.idAE })
+                    |
+                    @Html.ActionLink("cancella", "AEDelete", new { id = item.idAE })
+                </td>
+            </tr>
+        }
+    </table>
+}

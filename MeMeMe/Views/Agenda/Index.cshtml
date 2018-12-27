@@ -1,0 +1,102 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Scadenziario farmaci";
+    MeMeMe.Models.Agenda scadenziario = Model.scadenziario;
+}
+
+<h2>Pazienti</h2>
+@{using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Filtrare per data prossime consegne</legend>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => scadenziario.dataDa, new { @class = "control-label col-md-1" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => scadenziario.dataDa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => scadenziario.dataDa)
+                </div>
+                @Html.LabelFor(model => scadenziario.dataA, new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => scadenziario.dataA, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => scadenziario.dataA)
+                </div>
+                <div class="col-md-1">
+                    <input id="butSubmit" type="submit" value="Filtra" class="btn btn-default" />
+                </div>
+                <a href="" class="btn btn-default">Annulla filtro</a>
+            </div>
+        </div>
+    </fieldset>
+}
+}
+
+@{
+    if (Model.agendaListato.Count > 0)
+    {
+        if (User.IsInRole("audit"))
+        {
+            var grid = new WebGrid(Model.agendaListato, canPage: false, rowsPerPage: 15);
+            //grid.Pager(WebGridPagerModes.NextPrevious);
+            @grid.GetHtml(tableStyle: "grid",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns:
+                        grid.Columns(
+                        grid.Column("idMeMeMe", "id MeMeMe", null, style: "columnIdMeMeMe", canSort: false),
+                        grid.Column("fase", "fase in corso", null, style: "columnFaseInCarico", canSort: false),
+                        grid.Column("flaconi", "flaconi in carico", null, style: "columnFlaconiInCarico", canSort: false),
+                        grid.Column(header: "prossimo ritiro presunto", format: (item) =>
+                        {
+                            if (item.prossimoRitiroData <= DateTime.Today)
+                            {
+                                return new HtmlString("<span style='color:red;'>" + item.prossimoRitiro + "</span>");
+                            }
+                            else
+                            {
+                                return new HtmlString("<span style='color:green;'>" + item.prossimoRitiro + "</span>");
+                            }
+
+                        }, style: "columnProssimo")
+
+            ));
+        }
+        else
+        {
+            var grid = new WebGrid(Model.agendaListato, canPage: false, rowsPerPage: 15);
+            //grid.Pager(WebGridPagerModes.NextPrevious);
+            @grid.GetHtml(tableStyle: "grid",
+                        headerStyle: "head",
+                        alternatingRowStyle: "alt",
+                        columns:
+                        grid.Columns(
+                        grid.Column("idMeMeMe", "id MeMeMe", null, style: "columnIdMeMeMe", canSort: false),
+                        //grid.Column("paziente", "paziente", null, style: "columnPazienteAgenda", canSort: false),
+                        grid.Column(header: "paziente", format: (item) =>
+                        {
+                            return new HtmlString(Html.ActionLink((string)item.paziente, "../Studio/Paziente", new { idPaziente = item.idPaziente }).ToString());
+                        }, style: "columnPaziente"),
+                        grid.Column("fase", "fase in corso", null, style: "columnFaseInCarico", canSort: false),
+                        grid.Column("flaconi", "flaconi in carico", null, style: "columnFlaconiInCarico", canSort: false),
+                        grid.Column(header: "prossimo ritiro presunto", format: (item) =>
+                        {
+                            if (item.prossimoRitiroData <= DateTime.Today)
+                            {
+                                return new HtmlString("<span style='color:red;'>" + item.prossimoRitiro+"</span>");
+                            }
+                            else
+                            {
+                                return new HtmlString("<span style='color:green;'>" + item.prossimoRitiro + "</span>");
+                            }
+
+                        }, style: "columnProssimo")
+
+            ));
+        }
+    }
+    else
+    {
+            @Html.Label("nessun paziente in scadenza in questo periodo!")
+        }
+    }

@@ -1,0 +1,169 @@
+﻿@model MeMeMe.Models.AEDettaglio
+@{
+    ViewBag.Title = "AE modifica";
+}
+
+<script type="text/javascript">
+    var viewModel = {
+        _tipoEvento: ko.observable(@Model.tipoEvento),
+        _tipoEventoAltro: ko.observable(@Model.tipoEventoAltro)
+    };
+
+    viewModel._tipoEvento.subscribe(function (v) {
+         if (v != 999) {
+            viewModel._tipoEventoAltro("");
+        }
+    });
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel);
+//<script type="text/javascript">
+//    $(document).ready(function () {
+        //default
+        if ($("#datanascita").val() == '01/01/0001 00:00:00') {
+            $("#datanascita").val('');
+        }
+        var selectedProvincia = $('#provincia').val();
+        if (selectedProvincia != null && selectedProvincia != '') {
+            $.getJSON('@Url.Action("Comuni")', { provincia: selectedProvincia }, function (comuni) {
+                var comuneSelect = $('#comune');
+                comuneSelect.empty();
+                $.each(comuni, function (index, comune) {
+                    comuneSelect.append($('<option/>', {
+                        value: comune.value,
+                        text: comune.text
+                    }));
+                });
+            });
+        }
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+    @*});
+</script>*@
+
+
+<h2>Paziente @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idAEDettaglio)
+        @Html.HiddenFor(model => model.idAE)
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.tipoEvento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownList("tipoEvento", null, new { data_bind = "value: _tipoEvento", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipoEvento)
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.tipoEventoAltro, null, new { data_bind = "value: _tipoEventoAltro, enable: _tipoEvento()==999", @class = "form-control", @style = "width:500px;", @maxlength = "255" })
+                @Html.ValidationMessageFor(model => model.tipoEventoAltro)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.serietaEvento, new { @class = "control-label col-md-2" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.serietaEvento, 1)
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.serietaEvento, 2)
+                        No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.serietaEvento)
+                @Html.HiddenFor(model => model.serietaEvento, null)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.reazioneFarmaco, new { @class = "control-label col-md-2" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.reazioneFarmaco, 1)
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.reazioneFarmaco, 2)
+                        No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.reazioneFarmaco)
+                @Html.HiddenFor(model => model.reazioneFarmaco, null)
+            </div>
+            @Html.Label("Si definisce serio se: causa ospedalizzazione o la prolunga, condizione medica rilevante, minaccia di morte, morte, teratogeno", new { @class = "note  col-md-6" })
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.serietaGrado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownList("serietaGrado", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.serietaGrado)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.dataInizio, new { @class = "control-label col-md-2" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataInizio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dataInizio)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dataFine, new { @class = "control-label col-md-2" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataFine, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dataFine)
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.outcome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownList("outcome", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.outcome)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Registra" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+

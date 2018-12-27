@@ -1,0 +1,1052 @@
+﻿@model MeMeMe.Models.SAE
+
+@{
+    ViewBag.Title = "Compilazione SAE";
+}
+
+<script type="text/javascript">
+
+    var viewModel = {
+        _risultato: ko.observable(),
+        _eventoFatale: ko.observable(),
+        _concomitante1CauseSAE: ko.observable(),
+        _concomitante1modificaConduzioneTrial: ko.observable(),
+        _concomitante2CauseSAE: ko.observable(),
+        _concomitante2modificaConduzioneTrial: ko.observable(),
+        _concomitante3CauseSAE: ko.observable(),
+        _concomitante3modificaConduzioneTrial: ko.observable()
+    };
+
+    viewModel._risultato.subscribe(function (v) {
+        if (v != "4") {
+            viewModel._eventoFatale("");
+            viewModel._eventoFatale(false);
+        }
+    });
+
+    viewModel._concomitante1CauseSAE.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._concomitante1modificaConduzioneTrial("");
+            viewModel._concomitante1modificaConduzioneTrial(false);
+        }
+    });
+
+    viewModel._concomitante2CauseSAE.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._concomitante2modificaConduzioneTrial("");
+            viewModel._concomitante2modificaConduzioneTrial(false);
+        }
+    });
+
+    viewModel._concomitante3CauseSAE.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._concomitante3modificaConduzioneTrial("");
+            viewModel._concomitante3modificaConduzioneTrial(false);
+        }
+    });
+
+
+
+    $(document).ready(function () {
+        //default
+        if ($("#dataUltimaAssunzione").val() == '01/01/0001 00:00:00') {
+            $("#dataUltimaAssunzione").val('');
+        }
+        if ($("#dataSAE").val() == '01/01/0001 00:00:00') {
+            $("#dataSAE").val('');
+        }
+        if ($("#inizioSAE").val() == '01/01/0001 00:00:00') {
+            $("#inizioSAE").val('');
+        }
+        if ($("#fineSAE").val() == '01/01/0001 00:00:00') {
+            $("#fineSAE").val('');
+        }
+        if ($("#dataAssegnazionePeriodoProva").val() == '01/01/0001 00:00:00') {
+            $("#dataAssegnazionePeriodoProva").val('');
+        }
+
+        if ($('#trialCode').val() == 0) {
+            $('input[type="submit"]').prop('disabled', true);
+        }
+
+        $('#trialCode').change(function () {
+            var selectedPaziente = $('#trialCode').val();
+            $.getJSON('@Url.Action("InfoPaziente")', { idPaziente: selectedPaziente },
+            function (result) {
+                $("#iniziali").html(result.iniziali);
+                $("#eta").html(result.eta);
+                $("#sesso").html(result.sesso);
+                $("#peso").html(result.peso);
+                $("#altezza").html(result.altezza);
+                $("#dataAssegnazionePeriodoProva").val(result.dataAssegnazionePeriodoProva);
+                $("#idPaziente").val(selectedPaziente);
+                $('input[type="submit"]').prop('disabled', false);
+            });
+        });
+        //Model KO
+        ko.applyBindings(viewModel);
+//<script type="text/javascript">
+//    $(document).ready(function () {
+        //default
+        if ($("#datanascita").val() == '01/01/0001 00:00:00') {
+            $("#datanascita").val('');
+        }
+        var selectedProvincia = $('#provincia').val();
+        if (selectedProvincia != null && selectedProvincia != '') {
+            $.getJSON('@Url.Action("Comuni")', { provincia: selectedProvincia }, function (comuni) {
+                var comuneSelect = $('#comune');
+                comuneSelect.empty();
+                $.each(comuni, function (index, comune) {
+                    comuneSelect.append($('<option/>', {
+                        value: comune.value,
+                        text: comune.text
+                    }));
+                });
+            });
+        }
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+
+</script>
+    @*});
+</script>*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Evento Avverso Serio</h2>
+        <hr />
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idPaziente, new { @Value = ViewBag.idPaziente })
+
+        <div class="form-group">
+            @Html.Label("Paziente", new { @class = "control-label col-md-1" })
+            @Html.DropDownList("trialCode", null, new { @class = "form-control col-md-2" })
+            <div class="col-xs-2" id="iniziali">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-3" id="eta">
+            </div>
+            <div class="col-xs-3" id="sesso">
+            </div>
+            <div class="col-xs-3" id="peso">
+            </div>
+            <div class="col-xs-3" id="altezza">
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">Investigational Medical Product (IMP)/ Study Drug</h3>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.studyDrug, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.studyDrug, new { @class = "form-control", @style = "max-width: 800px;", @maxlength = "200" })
+                    @Html.ValidationMessageFor(model => model.studyDrug)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dosaggio, new { @class = "control-label col-md-2" })
+                <div class="form col-md-7">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.dosaggio, 1)
+                            half dose
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.dosaggio, 2)
+                            full dose
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.dosaggio, null)
+                    @Html.ValidationMessageFor(model => model.dosaggio)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.dataAssegnazionePeriodoProva, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dataAssegnazionePeriodoProva, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dataAssegnazionePeriodoProva)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.assunzioneSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.assunzioneSAE, new { @class = "form-control", @style = "max-width: 800px;", @maxlength = "200" })
+                    @Html.ValidationMessageFor(model => model.assunzioneSAE)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.dataUltimaAssunzione, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dataUltimaAssunzione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dataUltimaAssunzione)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">SAE Details</h3>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.dataSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dataSAE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dataSAE)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.diagnosi, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.diagnosi, new { @class = "form-control", @style = "max-width: 800px;", @maxlength = "200" })
+                    @Html.ValidationMessageFor(model => model.diagnosi)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.gravita, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.gravita, 1)
+                            mild
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.gravita, 2)
+                            moderate
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.gravita, 3)
+                            severe
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.gravita, 4)
+                            life-threatening
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.gravita, 5)
+                            fatal
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.gravita, null)
+                    @Html.ValidationMessageFor(model => model.gravita)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.relazioneCausale, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.relazioneCausale, 1)
+                            related
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.relazioneCausale, 2)
+                            probable
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.relazioneCausale, 3)
+                            possible
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.relazioneCausale, 4)
+                            not related
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.relazioneCausale, 5)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.relazioneCausale, null)
+                    @Html.ValidationMessageFor(model => model.relazioneCausale)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.azioneIntrapresa, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.azioneIntrapresa, new { @class = "form-control", @style = "max-width: 800px;", @maxlength = "200" })
+                    @Html.ValidationMessageFor(model => model.azioneIntrapresa)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.inizioSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.inizioSAE)
+                    @Html.ValidationMessageFor(model => model.inizioSAE)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.fineSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.fineSAE)
+                    @Html.ValidationMessageFor(model => model.fineSAE)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">Suspected IMP/Study Drug</h3>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.reazioneArresto, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.reazioneArresto, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.reazioneArresto, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.reazioneArresto, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.reazioneArresto, null)
+                    @Html.ValidationMessageFor(model => model.reazioneArresto)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.risomministrazioneFarmaco, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risomministrazioneFarmaco, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risomministrazioneFarmaco, 2)
+                            no
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.risomministrazioneFarmaco, null)
+                    @Html.ValidationMessageFor(model => model.risomministrazioneFarmaco)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dataRisomministrazioneFarmaco, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dataRisomministrazioneFarmaco)
+                    @Html.ValidationMessageFor(model => model.dataRisomministrazioneFarmaco)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ripetizioneDopoRiassunzione, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.ripetizioneDopoRiassunzione, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.ripetizioneDopoRiassunzione, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.ripetizioneDopoRiassunzione, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.ripetizioneDopoRiassunzione, null)
+                    @Html.ValidationMessageFor(model => model.ripetizioneDopoRiassunzione)
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.risultato, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risultato, 1, new { data_bind = " checked : _risultato" })
+                            solved
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risultato, 2, new { data_bind = " checked : _risultato" })
+                            not solved
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risultato, 3, new { data_bind = " checked : _risultato" })
+                            ongoing
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.risultato, 4, new { data_bind = " checked : _risultato" })
+                            fatal
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.risultato, null)
+                    @Html.ValidationMessageFor(model => model.risultato)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.eventoFatale, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.eventoFatale, 1, new { data_bind = " checked : _eventoFatale, enable: _risultato()==4" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.eventoFatale, 2, new { data_bind = " checked : _eventoFatale, enable: _risultato()==4" })
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.eventoFatale, 3, new { data_bind = " checked : _eventoFatale, enable: _risultato()==4" })
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.eventoFatale, null)
+                    @Html.ValidationMessageFor(model => model.eventoFatale)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dataMorte, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dataMorte, new { data_bind = "value: _dataMorte,  enable: _risultato()==4" })
+                    @Html.ValidationMessageFor(model => model.dataMorte)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">Disease under study</h3>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.malattiaCausaSAE, new { @class = "control-label col-md-2" })
+                <div class="form col-md-10">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaCausaSAE, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaCausaSAE, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaCausaSAE, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaCausaSAE, null)
+                    @Html.ValidationMessageFor(model => model.malattiaCausaSAE)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">Concomitant Treatments/Procedures</h3>
+
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.Label("")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONCOMITANT 1")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONCOMITANT 2")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONCOMITANT 3")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante2, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante2)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante3, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante3)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1Diagnosi, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1Diagnosi, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1Diagnosi)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante2Diagnosi, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante2Diagnosi)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante3Diagnosi, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante3Diagnosi)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1DoseGG, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1DoseGG, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1DoseGG)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante2DoseGG, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante2DoseGG)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante3DoseGG, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante3DoseGG)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1DaQuanto, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1DaQuanto, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1DaQuanto)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1DaQuanto, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1DaQuanto)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.concomitante1DaQuanto, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.concomitante1DaQuanto)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1DataInzio, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante1DataInzio)
+                    @Html.ValidationMessageFor(model => model.concomitante1DataInzio)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante2DataInzio)
+                    @Html.ValidationMessageFor(model => model.concomitante2DataInzio)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante3DataInzio)
+                    @Html.ValidationMessageFor(model => model.concomitante3DataInzio)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1DataFine, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante1DataFine)
+                    @Html.ValidationMessageFor(model => model.concomitante1DataFine)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante2DataFine)
+                    @Html.ValidationMessageFor(model => model.concomitante2DataFine)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.concomitante3DataFine)
+                    @Html.ValidationMessageFor(model => model.concomitante3DataFine)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1InCorso, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante1InCorso, null)
+                    @Html.ValidationMessageFor(model => model.concomitante1InCorso)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante2InCorso, null)
+                    @Html.ValidationMessageFor(model => model.concomitante2InCorso)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante3InCorso, null)
+                    @Html.ValidationMessageFor(model => model.concomitante3InCorso)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1CauseSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1CauseSAE, 1, new { data_bind = "checked : _concomitante1CauseSAE" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1CauseSAE, 2, new { data_bind = "checked : _concomitante1CauseSAE" })
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1CauseSAE, 3, new { data_bind = "checked : _concomitante1CauseSAE" })
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante1CauseSAE, null)
+                    @Html.ValidationMessageFor(model => model.concomitante1CauseSAE)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2CauseSAE, 1, new { data_bind = "checked : _concomitante2CauseSAE" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2CauseSAE, 2, new { data_bind = "checked : _concomitante2CauseSAE" })
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2CauseSAE, 3, new { data_bind = "checked : _concomitante2CauseSAE" })
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante2CauseSAE, null)
+                    @Html.ValidationMessageFor(model => model.concomitante2CauseSAE)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3CauseSAE, 1, new { data_bind = "checked : _concomitante3CauseSAE" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3CauseSAE, 2, new { data_bind = "checked : _concomitante3CauseSAE" })
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3CauseSAE, 3, new { data_bind = "checked : _concomitante3CauseSAE" })
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante3CauseSAE, null)
+                    @Html.ValidationMessageFor(model => model.concomitante3CauseSAE)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.concomitante1modificaConduzioneTrial, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1modificaConduzioneTrial, 1, new { data_bind = "checked : _concomitante1modificaConduzioneTrial, enable: _concomitante1CauseSAE()==1" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante1modificaConduzioneTrial, 2, new { data_bind = "checked : _concomitante1modificaConduzioneTrial, enable: _concomitante1CauseSAE()==1" })
+                            no
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante1modificaConduzioneTrial, null)
+                    @Html.ValidationMessageFor(model => model.concomitante1modificaConduzioneTrial)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2modificaConduzioneTrial, 1, new { data_bind = "checked : _concomitante2modificaConduzioneTrial, enable: _concomitante2CauseSAE()==1" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante2modificaConduzioneTrial, 2, new { data_bind = "checked : _concomitante2modificaConduzioneTrial, enable: _concomitante2CauseSAE()==1" })
+                            no
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante2modificaConduzioneTrial, null)
+                    @Html.ValidationMessageFor(model => model.concomitante2modificaConduzioneTrial)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3modificaConduzioneTrial, 1, new { data_bind = "checked : _concomitante3modificaConduzioneTrial, enable: _concomitante3CauseSAE()==1" })
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.concomitante3modificaConduzioneTrial, 2, new { data_bind = "checked : _concomitante3modificaConduzioneTrial, enable: _concomitante3CauseSAE()==1" })
+                            no
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.concomitante3modificaConduzioneTrial, null)
+                    @Html.ValidationMessageFor(model => model.concomitante3modificaConduzioneTrial)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">Relevant Medical Conditions</h3>
+
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.Label("")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONDITION 1")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONDITION 2")
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("CONDITION 3")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.malattiaAllergiaRischio1, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.malattiaAllergiaRischio1, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio1)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.malattiaAllergiaRischio2, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio2)
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.malattiaAllergiaRischio3, new { @class = "form-control", @style = "", @maxlength = "50" })
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio3)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.malattiaAllergiaRischio1DataInizio, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio1DataInizio)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio1DataInizio)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio2DataInizio)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio2DataInizio)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio3DataInizio)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio3DataInizio)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.malattiaAllergiaRischio1DataFine, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio1DataFine)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio1DataFine)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio2DataFine)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio2DataFine)
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.malattiaAllergiaRischio3DataFine)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio3DataFine)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.malattiaAllergiaRischio1InCorso, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio1InCorso, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio1InCorso)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio2InCorso, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio2InCorso)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3InCorso, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3InCorso, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3InCorso, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio3InCorso, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio3InCorso)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio1CausaPrimariaSAE)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2CausaPrimariaSAE, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2CausaPrimariaSAE, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio2CausaPrimariaSAE, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio2CausaPrimariaSAE, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio2CausaPrimariaSAE)
+                </div>
+                <div class="col-md-3">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3CausaPrimariaSAE, 1)
+                            yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3CausaPrimariaSAE, 2)
+                            no
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.malattiaAllergiaRischio3CausaPrimariaSAE, 3)
+                            unknown
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.malattiaAllergiaRischio3CausaPrimariaSAE, null)
+                    @Html.ValidationMessageFor(model => model.malattiaAllergiaRischio3CausaPrimariaSAE)
+                </div>
+            </div>
+        </div>
+
+        <div class="sezione">
+            <h3 class="text-center">SAE Narrative</h3>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.osservazioni, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.osservazioni, new { @class = "form-control", @rows = 25, @style = "max-width: 800px;", @maxlength = "3000" })
+                    @Html.ValidationMessageFor(model => model.osservazioni)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-12">
+                <input type="submit" value="Registra" id="btnCreate" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Torna a elenco", "Index")
+</div>

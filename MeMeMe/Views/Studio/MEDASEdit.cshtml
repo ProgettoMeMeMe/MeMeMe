@@ -1,0 +1,234 @@
+﻿@model MeMeMe.Models.MEDAS
+
+@{
+    ViewBag.Title = "MEDAS";
+}
+<script type="text/javascript">
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    }
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+    }
+
+    $(document).ready(function () {
+        $(document).find('input').keypress(function (evt) {
+            if (evt.which == 46) {
+                $(this).val($(this).val() + ',');
+                evt.preventDefault();
+            }
+        });
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+    });
+</script>
+
+<h2>MEDAS @ViewBag.MEDAS</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.idStatoRegistro)
+    @Html.HiddenFor(model => model.dataInserimento)
+    @Html.HiddenFor(model => model.userName)
+
+    <div class="form-group required">
+        @Html.LabelFor(model => model.data, new { @class = "control-label col-md-4" })
+        <div class="col-xs-2">
+            @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _data" } })
+        </div>
+        @Html.ValidationMessageFor(model => model.data)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.d01, new { @class = "control-label col-md-4" })
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d01, 1)
+                Si
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d01, 2)
+               No
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d01, 3)
+                NS/NR
+            </label>
+        </div>
+        @Html.ValidationMessageFor(model => model.d01)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d02, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d02, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d02)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d03, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d03, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d03)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d04, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d04, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d04)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d05, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d05, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d05)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d06, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d06, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d06)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d07, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d07, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d07)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d08, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d08, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d08)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d09, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d09, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d09)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d10, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d10, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d10)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d11, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d11, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d11)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d12, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d12, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d12)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d13, new { @class = "control-label col-md-4" })
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d13, 1)
+                pollo, tacchino, coniglio
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d13, 2)
+                vitello, manzo, maiale, carni conservate
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label style="font-weight:normal">
+                @Html.RadioButtonFor(model => model.d13, 3)
+                NS/NR
+            </label>
+        </div>
+        @Html.ValidationMessageFor(model => model.d13)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.d14, new { @class = "control-label col-md-4" })
+        <div class="col-md-2">
+            @Html.TextBoxFor(model => model.d14, null, new { @class = "form-control", @style = "width:50px;", @maxlength = "3" })
+        </div>
+        @Html.ValidationMessageFor(model => model.d14)
+    </div>
+
+    @{
+        if (ViewBag.Disable == false)
+        {
+            @*if (ViewBag.idDrop)
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-4 note">
+                        <strong>Paziente uscito dallo studio</strong>, modifiche disabilitate!
+                    </div>
+                </div>
+            }
+            else
+            {*@
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        @if (User.IsInRole("audit"))
+                        {
+                            <input type="submit" value="Aggiorna" class="btn btn-default" disabled />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Aggiorna" class="btn btn-default" />
+                        }
+                    </div>
+                </div>
+            }
+        }
+        @*else
+        {
+            <div class="sezione" style="padding:20px; background-color:#6ce96c">
+                <h3>Paziente randomizzato</h3>
+                scheda non modificabile
+            </div>
+            <div>
+                <a href="javascript:history.back()">Torna al paziente</a>
+            </div>
+        }*@
+    }
+
+</div>
+}
+

@@ -1,0 +1,124 @@
+﻿@model MeMeMe.Models.Eleggibilità
+@{
+
+    if (Model.sesso == "F")
+    {
+        ViewBag.LabelCirconferenzaVita = "Circonferenza vita (>=85 cm)";
+        ViewBag.LabelColesterolo = "Colesterolo HDL (< 50mg/100 mL) - colesterolo totale";
+    }
+    else
+    {
+        ViewBag.LabelCirconferenzaVita = "Circonferenza vita (>=100 cm)";
+        ViewBag.LabelColesterolo = "Colesterolo HDL (< 40mg/100 mL) - colesterolo totale";
+    }
+
+    //INCLUSIONE: eta + almeno 3 fattori sindrome
+    bool checkInclusione = false;
+    int sm = Convert.ToInt32(Model.circonferenzaVitaCheck)
+            + Convert.ToInt32(Model.pressioneCheck)
+            + Convert.ToInt32(Model.glicemiaCheck)
+            + Convert.ToInt32(Model.trigliceridiCheck)
+            + Convert.ToInt32(Model.colesteroloHDLCheck);
+    if (Model.etaCheck && sm >= 3)
+    {
+        checkInclusione = true;
+    }
+    //ESCLUSIONE: almeno un fattore
+    bool checkEsclusione = false;
+    if (Model.effettiCollateraliCheck || Model.creatininemiaCheck)
+    {
+        checkEsclusione = true;
+    }
+
+
+}
+
+<h2>RANDOMIZZAZIONE  @ViewBag.Paziente</h2>
+
+<div class="row">
+    <div class="col-md-5">
+        <h4>fattori INCLUSIONE</h4>
+        <table class="mememetable">
+            <tr>
+                <th style="text-align:left">criterio</th>
+                <th style="text-align:center">valore</th>
+                <th style="text-align:center">check</th>
+            </tr>
+            <tr>
+                @*<td style="text-align:left">Età (55-80)</td>*@
+                <td style="text-align:left">Età (50-79)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.eta)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.etaCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">@ViewBag.LabelCirconferenzaVita</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.circonferenzaVita)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.circonferenzaVitaCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">Pressione arteriosa (>=85 and >=135)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.pressione) @(Model.ipertensioneCheck ? " - terapia ipertensione" : "") </td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.pressioneCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">Glicemia (>=100 and <= 126 mg/100 mL)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.glicemia)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.glicemiaCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">Trigliceridi (>=150 mg/100ml)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.trigliceridi) @(Model.ipertrigliceridemiaCheck ? " - terapia trigliceridemia" : "")</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.trigliceridiCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">@ViewBag.LabelColesterolo</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.colesteroloHDL) @(Model.ipercolesterolemiaCheck ? " - terapia ipercolesterolemia" : "")</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.colesteroloHDLCheck)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <h4>fattori ESCLUSIONE</h4>
+        <table class="mememetable">
+            <tr>
+                <th style="text-align:left">criterio</th>
+                <th style="text-align:center">valore</th>
+                <th style="text-align:center">check</th>
+            </tr>
+            <tr>
+                <td style="text-align:left">Effetti collaterali metformina</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.effettiCollateraliCheck)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.effettiCollateraliCheck)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">creatinemia (>1,4 MG/DL)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.creatininemia)</td>
+                <td style="text-align:center">@Html.DisplayFor(model => model.creatininemiaCheck)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @{
+            if (checkInclusione && checkEsclusione == false)
+            {
+                <h4>ELEGGIBILE</h4>
+                <div class="sezione" style="padding:20px; background-color:#6ce96c">
+
+                    <p>Il paziente PRESENTA i requisiti per proseguire lo studio</p>
+
+
+                </div>
+            }
+            else
+            {
+                <h4>NON ELEGGIBILE</h4>
+                <div class="sezione" style="padding:20px; background-color:#eb7e7e">
+
+                    <p>Il paziente non presenta i requisiti per proseguire lo studio</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+

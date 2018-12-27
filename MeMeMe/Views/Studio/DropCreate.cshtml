@@ -1,0 +1,356 @@
+﻿@model MeMeMe.Models.Drop
+@{
+    ViewBag.Title = "Drop";
+}
+
+<script type="text/javascript">
+
+    var viewModel = {
+        _outcomePrimario: ko.observable(),
+        _tumore: ko.observable(),
+        _tumoreDiagnosi: ko.observable(),
+        _tumoreSede: ko.observable(),
+        _cardiovascolare: ko.observable(),
+        _cardiovascolareDiagnosi: ko.observable(),
+        _cardiovascolareDescrizione: ko.observable(),
+        _diabeteTipo2: ko.observable(),
+        _altre: ko.observable(),
+        _altreDiagnosi: ko.observable(),
+        _altreDescrizione: ko.observable(),
+        _dataDiagnosiPrincipale: ko.observable(),
+        _idMotivazione: ko.observable(),
+        _motivazione: ko.observable()
+    };
+
+    viewModel._outcomePrimario.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._tumore(false);
+            viewModel._tumoreDiagnosi("");
+            viewModel._tumoreSede("");
+            viewModel._cardiovascolare(false);
+            viewModel._cardiovascolareDiagnosi("");
+            viewModel._cardiovascolareDescrizione("");
+            viewModel._diabeteTipo2(false);
+            viewModel._altre(false);
+            viewModel._altreDiagnosi("");
+            viewModel._altreDescrizione("");
+            viewModel._altre(false);
+            viewModel._dataDiagnosiPrincipale("");
+        } else {
+            $("#tumore").attr('required', true);
+            $("#cardiovascolare").attr('required', true);
+            $("#diabeteTipo2").attr('required', true);
+            $("#altre").attr('required', true);
+            $("#dataDiagnosiPrincipale").attr('required', true);
+        }
+    });
+
+    viewModel._tumore.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._tumoreDiagnosi("");
+            viewModel._tumoreSede("");
+        }
+    });
+
+    viewModel._cardiovascolare.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._cardiovascolareDiagnosi("");
+            viewModel._cardiovascolareDescrizione("");
+        }
+    });
+
+    viewModel._altre.subscribe(function (v) {
+        if (v != "1") {
+            viewModel._altreDiagnosi("");
+            viewModel._altreDescrizione("");
+        }
+    });
+
+    viewModel._idMotivazione.subscribe(function (v) {
+        if (v != 7) {
+            viewModel._motivazione("");
+        }
+    });
+
+    ko.bindingHandlers.fadeVisible = {
+        init: function (element, valueAccessor) {
+            // Initially set the element to be instantly visible/hidden depending on the value
+            var value = valueAccessor();
+            $(element).toggle(ko.unwrap(value)); // Use "unwrapObservable" so we can handle values that may or may not be observable
+        },
+        update: function (element, valueAccessor) {
+            // Whenever the value subsequently changes, slowly fade the element in or out
+            var value = valueAccessor();
+            ko.unwrap(value) ? $(element).fadeIn() : $(element).fadeOut();
+        }
+    };
+
+    $(document).ready(function () {
+        this.displayAdvancedOptions = ko.observable(false);
+        ko.applyBindings(viewModel);
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                    result = true;
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+   });
+</script>
+
+<h2>Drop @ViewBag.Paziente</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idStatoRegistro, new { @Value = ViewBag.idStatoRegistro })
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.data, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.data)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dataUltimaAssunzione, new { @class = "control-label col-md-4" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.dataUltimaAssunzione, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.dataUltimaAssunzione)
+        </div>
+
+        <!--2017/01/30 richiesta Mauro-->
+        <div class="form-group required">
+            @Html.LabelFor(model => model.idMotivazione, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownList("idMotivazione", null, new { data_bind = "value: _idMotivazione", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idMotivazione)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.motivazione, new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.motivazione, new { data_bind = "value: _motivazione, enable: _idMotivazione()==7", @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.motivazione)
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(model => model.outcomePrimario, new { @class = "control-label col-md-4" })
+            <div class="form col-md-7">
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.outcomePrimario, 1, new { data_bind = "checked: _outcomePrimario" })
+                        Si
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label style="font-weight:normal">
+                        @Html.RadioButtonFor(model => model.outcomePrimario, 2, new { data_bind = "checked: _outcomePrimario" })
+                        No
+                    </label>
+                </div>
+                @Html.HiddenFor(model => model.outcomePrimario, null)
+                @Html.ValidationMessageFor(model => model.outcomePrimario)
+            </div>
+        </div>
+
+        <!--SEZIONE OUTCOME aggiunta 11/10/2016 -->
+        <div class="sezione" data-bind="fadeVisible: _outcomePrimario()==1">
+            <div style="text-align:center; margin-top:20px;margin-bottom:20px;">
+                <h3 >SOTTOSCHEDA OUTCOME PRIMARIO</h3>
+            </div>
+
+            <!--tumore-->
+            <div class="form-group required" >
+                @Html.LabelFor(model => model.tumore, new { @class = "control-label col-md-4" })
+                <div class="form col-md-7">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.tumore, 1, new { data_bind = "checked: _tumore, enable: _outcomePrimario()==1" })
+                            Si
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.tumore, 2, new { data_bind = "checked: _tumore, enable: _outcomePrimario()==1" })
+                            No
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.tumore, null)
+                    @Html.ValidationMessageFor(model => model.tumore)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.tumoreDiagnosi, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.tumoreDiagnosi, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _tumoreDiagnosi, enable: _outcomePrimario()==1 && _tumore()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.tumoreDiagnosi)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.tumoreSede, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.tumoreSede, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _tumoreSede, enable: _outcomePrimario()==1 && _tumore()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.tumoreSede)
+            </div>
+
+            <!--cardiovascolare-->
+            <div class="form-group required">
+                @Html.LabelFor(model => model.cardiovascolare, new { @class = "control-label col-md-4" })
+                <div class="form col-md-7">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.cardiovascolare, 1, new { data_bind = "checked: _cardiovascolare, enable: _outcomePrimario()==1" })
+                            Si
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.cardiovascolare, 2, new { data_bind = "checked: _cardiovascolare, enable: _outcomePrimario()==1" })
+                            No
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.cardiovascolare, null)
+                    @Html.ValidationMessageFor(model => model.cardiovascolare)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.cardiovascolareDiagnosi, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.cardiovascolareDiagnosi, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _cardiovascolareDiagnosi, enable: _outcomePrimario()==1 && _cardiovascolare()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.cardiovascolareDiagnosi)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.cardiovascolareDescrizione, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.cardiovascolareDescrizione, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _cardiovascolareDescrizione, enable: _outcomePrimario()==1 && _cardiovascolare()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.cardiovascolareDescrizione)
+            </div>
+
+
+            <!--diabete-->
+            <div class="form-group required">
+                @Html.LabelFor(model => model.diabeteTipo2, new { @class = "control-label col-md-4" })
+                <div class="form col-md-7">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.diabeteTipo2, 1, new { data_bind = "checked: _diabeteTipo2, enable: _outcomePrimario()==1" })
+                            Si
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.diabeteTipo2, 2, new { data_bind = "checked: _diabeteTipo2, enable: _outcomePrimario()==1" })
+                            No
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.diabeteTipo2, null)
+                    @Html.ValidationMessageFor(model => model.diabeteTipo2)
+                </div>
+            </div>
+
+            <!--altro-->
+            <div class="form-group required">
+                @Html.LabelFor(model => model.altre, new { @class = "control-label col-md-4" })
+                <div class="form col-md-7">
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.altre, 1, new { data_bind = "checked: _altre, enable: _outcomePrimario()==1" })
+                            Si
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight:normal">
+                            @Html.RadioButtonFor(model => model.altre, 2, new { data_bind = "checked: _altre, enable: _outcomePrimario()==1" })
+                            No
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.altre, null)
+                    @Html.ValidationMessageFor(model => model.altre)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.altreDiagnosi, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.altreDiagnosi, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _altreDiagnosi, enable: _outcomePrimario()==1 && _altre()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.altreDiagnosi)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.altreDescrizione, new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.altreDescrizione, new { @class = "form-control", rows = "2", cols = "200", data_bind = "value: _altreDescrizione, enable: _outcomePrimario()==1 && _altre()==1" })
+                </div>
+                @Html.ValidationMessageFor(model => model.altreDescrizione)
+            </div>
+
+            <!--data diagnosi-->
+            <div class="form-group required">
+                @Html.LabelFor(model => model.dataDiagnosiPrincipale, new { @class = "control-label col-md-4" })
+                <div class="col-xs-2">
+                    @Html.EditorFor(model => model.dataDiagnosiPrincipale, new { htmlAttributes = new { @class = "form-control", data_bind = "value: _dataDiagnosiPrincipale, enable: _outcomePrimario()==1" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.dataDiagnosiPrincipale)
+            </div>
+        </div>
+
+        <!-- RIEPILOGO Farmaci  -->
+        <div class="form-group">
+            @Html.Label("Riepilogo FARMACI", new { @class = "control-label col-md-4" })
+            <div class="col-md-5">
+                <div class="infoPanel">
+                    @Html.Action("_RiepilogoFarmaci", "Farmaci", new { idPaziente = ViewBag.idPaziente })
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                @Html.Label("ATTENZIONE!!!", new { @class = "control-label col-md-4" })
+                <div class="col-md-5">
+                    <div class="note">
+                        Procedere solamente dopo aver verificato effettive condizioni di fuoriuscita. Il paziente verrà posto in stato di <strong>TERMINAZIONE DELLO STUDIO PER RITIRO</strong>
+                        <br />
+                        Gli inserimenti saranno bloccati e le modifiche disabilitate.
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-4">
+                    @if (User.IsInRole("audit"))
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Registra" class="btn btn-default" />
+                    }
+                </div>
+                <div class="col-md-2">
+                    <a href="javascript:window.print()">Stampa la pagina</a>
+                </div>
+            </div>
+        </div>
+}
