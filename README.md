@@ -4,8 +4,19 @@ Randomized controlled trial of metformin and dietary restriction to prevent age-
 Principal Investigator: Franco Berrino, MD 
 Host Institution: Fondazione IRCCS Istituto Nazionale dei Tumori
 
+account access user Audit01 pwd Js(0As98s12aAsTd 
+
 ## Getting Started
 
 ### Prerequisites
+DB
+Visul studio 
+IIS 
 
 ### Installing
+Eseguire il restore del DB in Microsoft SQL server
+Configurare parametri di connessione nel file web.config
+Configurare progetto in IIS o IIS Express
+Lanciare applicativo da browser o da visual studio
+
+
