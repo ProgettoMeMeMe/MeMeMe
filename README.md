@@ -4,8 +4,6 @@ Randomized controlled trial of metformin and dietary restriction to prevent age-
 Principal Investigator: Franco Berrino, MD 
 Host Institution: Fondazione IRCCS Istituto Nazionale dei Tumori
 
-account access user Audit01 pwd Js(0As98s12aAsTd 
-
 ## Getting Started
 
 ### Prerequisites
