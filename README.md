@@ -7,7 +7,7 @@ Host Institution: Fondazione IRCCS Istituto Nazionale dei Tumori - Milano (Italy
 ## Getting Started
 
 ### Prerequisites
-DB: Micrsosft Sql Server 2014 express (or never)
+DB: Micrsosft Sql Server 2014 express (or never)<br/>
 Microsoft Visual Studio 2014 (or newer), framework .NET Framework 4.5 (or never)
 
 ### Installing
