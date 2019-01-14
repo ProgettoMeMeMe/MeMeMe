@@ -125,7 +125,7 @@ namespace MeMeMe.Controllers
             series3.Color = System.Drawing.Color.Orange;
             series3.BorderDashStyle = ChartDashStyle.Dash;
             chartAndamentoScorte.DataManipulator.IsStartFromFirst = true;
-            chartAndamentoScorte.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, "Linear, 6, false, false", series2, series3);
+            //chartAndamentoScorte.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, "Linear, 6, false, false", series2, series3);
 
             using (var ms = new MemoryStream())
             {
