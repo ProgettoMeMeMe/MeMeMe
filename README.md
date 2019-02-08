@@ -30,6 +30,6 @@ Before complete restore DB MeMeMe,
 <ol>
   <li>Open project in Visual Studio and configure connection parameters in the web.config file</li>
   <li>Start project from visual studio and connect login page with</br> 
-    user: TestUser01 
+    user: TestUser01</br> 
     pwd: J8d(Ah1.F17182gH</li>
 </ol>
