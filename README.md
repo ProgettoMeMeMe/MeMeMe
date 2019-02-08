@@ -13,13 +13,13 @@ Microsoft Visual Studio 2014 (or newer), framework .NET Framework 4.5 (or never)
 ### Installing
 First you need to create the database. It is possible alternatively to restore the database without minimal data or create a new empty dabase which will subsequently o be populated by users and randomization list.<br/>
 
-If you want to proceed with <s>restore</s>:
+If you want to proceed with <b>restore</b>:
 <ol>
   <li>Open SQL Server Management Studio  </li> 
   <li>Select server domain, select Databases and restore database fron device. Select backup file in folder project MeMeMe/App_Data/MeMeMeAudit.bak and restore</li>
 </ol>
 
-If you want to proceed with <s>create clean db</s> by scrips:
+If you want to proceed with <b>create clean db</b> by scrips:
 <ol>
   <li>Open SQL Server Management Studio</li>
   <li>Execute script CreateMeMeMe.sql</li> 
